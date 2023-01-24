@@ -1,19 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const UsersController = require("../controllers/users"); //UsersController is the class (controller)
+const userController = require("../controllers/userController"); //UsersController is the class (controller)
+const authController = require("../controllers/authController");
 
 /* GET users listing. */
-router.get("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const user = await UsersController.getUser(id);
-    res.status(200).json(user);
-  } catch (e) {
-    res.status(500).json({
-      status: "fail",
-      message: e.message,
-    });
-  }
-});
+// router.route("/:id").get(userController);
+router.route("/signup").post(authController.signup);
+router.route("/login").post(authController.login);
 
 module.exports = router;

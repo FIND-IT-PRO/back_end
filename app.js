@@ -22,19 +22,12 @@ app.use(json());
 //! coockie parser
 app.use(coockieParser());
 
-//?routers
-const apiPrefix = "/api/v1/";
-app.use(apiPrefix + "users/", usersRouter);
+//? routers
+app.use("/api/v1/users", usersRouter);
 
-// not found
-app.use((_, res) => {
-  res.status(404).json({
-    status: "fail",
-    message: "Not found",
-  });
-});
+const port = process.env.PORT || 8080;
 
 //! listening
 app.listen(process.env.PORT, () => {
-  console.log("listening in port ", process.env.PORT || 8080);
+  console.log(`The server is listening on port ${port}...`);
 });
