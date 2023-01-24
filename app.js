@@ -4,11 +4,13 @@ const app = express();
 const morgan = require("morgan");
 const coockieParser = require("cookie-parser");
 
-// Les routes
+//------------------Routers---------------------------
 const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
 const typeObjetRouter = require('./routes/typeObjet.route.js');
-
+const contactRouter = require('./routes/contact.route.js')
+const detailRouter = require('./routes/detail.route.js')
+//---------------------------------------------
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 
@@ -32,6 +34,8 @@ const apiPrefix = "/api/v1/";
 app.use(apiPrefix + "users/", usersRouter);
 app.use(apiPrefix + "posts/", postsRouter);
 app.use("/typeObjet",typeObjetRouter);
+app.use("/contact",contactRouter);
+app.use("/detail",detailRouter)
 
 // not found
 app.use((_, res) => {
