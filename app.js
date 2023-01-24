@@ -3,8 +3,12 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const coockieParser = require("cookie-parser");
+
+// Les routes
 const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
+const typeObjetRouter = require('./routes/typeObjet.route.js');
+
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 
@@ -27,6 +31,7 @@ app.use(coockieParser());
 const apiPrefix = "/api/v1/";
 app.use(apiPrefix + "users/", usersRouter);
 app.use(apiPrefix + "posts/", postsRouter);
+app.use("/typeObjet",typeObjetRouter);
 
 // not found
 app.use((_, res) => {
