@@ -5,9 +5,7 @@ class Posts {
     this.collection = posts; //posts is a collection(model)
   }
   async getPost(id) {
-    const test = await this.collection.findById(id);
-    console.log("🚀 ~ file: posts.js:8 ~ Posts ~ getPost ~ test", test);
-    return test;
+    return await this.collection.findById(id);
   }
   async getPosts(n) {
     return this.collection.aggregate([{ $sample: { size: n } }]); //get randome posts
