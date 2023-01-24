@@ -1,18 +1,6 @@
 const mongoose = require("mongoose");
+const dateSchema = require("./dateSchema");
 
-const PostDateSchema = new mongoose.Schema(
-  {
-    creationDate: {
-      type: Date,
-      default: Date.now,
-    },
-    lastUpdateDate: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { _id: false }
-);
 const pointSchema = new mongoose.Schema(
   {
     type: {
@@ -67,7 +55,7 @@ const PostSchema = new mongoose.Schema({
     maxLength: 500,
   },
   date: {
-    type: PostDateSchema,
+    type: dateSchema,
   },
   status: {
     type: String,

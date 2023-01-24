@@ -8,7 +8,7 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     const post = await postController.getPost(id);
     if (!post) throw new Error("post not found");
-    res.status(200).json({status:"success",data:post});
+    res.status(200).json({ status: "success", data: post });
   } catch (e) {
     res.status(500).json({
       status: "fail",
@@ -71,6 +71,19 @@ router.patch("/:id", async (req, res) => {
     });
     if (!post) throw new Error("post not found");
     res.status(200).json({ status: "succes", data: post });
+  } catch (e) {
+    res.status(500).json({
+      status: "fail",
+      message: e.message,
+    });
+  }
+});
+router.delete("/:id/comments/", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await postController.removePostComments(id);
+    if (!comments) throw new Error("comment not found");
+    res.status(200).json({ status: "succes", data: comments });
   } catch (e) {
     res.status(500).json({
       status: "fail",

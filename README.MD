@@ -56,6 +56,66 @@ POST http://localhost:8080/api/v1/posts/63cec79dd41aea7cb7cedc10
 
 # CRUD ON COMMENTS
 
+## GET COMMENTS BY POST ID
+
+GET localhost:8080/api/v1/comments/63cec825310f7c9d516aaef2
+
+## POST A COMMENT (CREATE A COMMENT)
+
+POST http://localhost:8080/api/v1/comments
+
+```
+{
+  "comment":
+  {
+"_id": "63cec825310f7c9d516aaef3",
+"user_id": "5f3d3c3e2f2d3c5b3c5b3c5f",
+"post_id": "63cec825310f7c9d516aaef2",
+"content": "This post is great, I can relate to it so much!",
+"parent_id": null
+}
+}
+```
+
+## REPLY TO A COMMENT( CREATE A COMMENT POINTING ON THE PARENT COMMENT)
+
+```
+{
+  "comment":
+  {
+"_id": "63cec825310f7c9d516aae22",
+"user_id": "5f3d3c3e2f2d3c5b3c5b3c5f",
+"post_id": "63cec825310f7c9d516aaef2",
+"content": "This post is great, I can relate to it so much!",
+"parent_id": "63cec825310f7c9d516aaef5"
+}
+}
+```
+
+## PATCH A COMMENT (UPDATE A COMMENT)
+
+PATCH localhost:8080/api/v1/comments/63cec825310f7c9d516aaef3
+
+```
+{
+    "comment":
+    {
+        "content":"my new content"
+    }
+}
+
+```
+
+## DELETE A COMMENT BY POST (ID) (DELETE COMMENTS) (ALL COMMENTS RELATED TO A POST)
+
+DELETE localhost:8080/api/v1/posts/63cec825310f7c9d516aaef2/comments
+
+## DELETE A COMMENT BY ID (COMMENT OWNER) (DELETE A COMMENT) (ONE COMMENT)
+
+DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
+
+## DELETE A COMMENT BY ID (POST OWNER) (DELETE A COMMENT) (INFO:AUTH NEED TO BE ADDED)
+
 # CRUD ON REACTS
 
 ```
