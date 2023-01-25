@@ -16,7 +16,7 @@ var addData = async (req,res)=> {
 
 var getDataByid = async (req,res)=>{
    try{
-      const result = await TypeObjetModel.findById(req.params._id , {status:"active"})
+      const result = await TypeObjetModel.findById(req.params._id , {status:"active"}).select({categorie:1,sousCatergorie:1})
       res.send(result).status(200)
       
    }catch(err){

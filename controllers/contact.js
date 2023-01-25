@@ -25,7 +25,7 @@ var getAllData = async (req,res)=>{
 
 var getdataByid = async (req,res)=>{
         try{
-         const data = await Contact.findById(req.params._id);
+         const data = await Contact.findById(req.params._id)
          res.send(data).status(200)
         }catch(exception){
          res.send(exception).status(400)
