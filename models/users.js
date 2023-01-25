@@ -1,4 +1,4 @@
-  const crypto = require("crypto");
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
@@ -58,6 +58,10 @@ const usersSchema = new mongoose.Schema({
     type: Date,
     default: "",
   },
+  passwordChangedAt: {
+    type: Date,
+    default: "",
+  },
   passwordResetToken: String,
   passwordResetExpires: Date,
   active: {
@@ -79,13 +83,28 @@ usersSchema.pre("save", async function (next) {
   next();
 });
 
+usersSchema.pre("save", async function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+usersSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+usersSchema.methods.correctPassword = async function (candidatePass, userPass) {
+  return await bcrypt.compare(candidatePass, userPass);
+};
 
 usersSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto
-    .createHash('sha256')
+    .createHash("sha256")
     .update(resetToken)
-    .digest('hex');
+    .digest("hex");
 
   console.log({ resetToken }, this.passwordResetToken);
 
@@ -94,13 +113,7 @@ usersSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-usersSchema.methods.correctPassword = async function (candidatePass, userPass) {
-  return await bcrypt.compare(candidatePass, userPass);
-};
-
-
 module.exports = mongoose.model("users", usersSchema);
-
 
 // var bcrypt = require('bcryptjs');
 // var salt = bcrypt.genSaltSync(10);

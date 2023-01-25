@@ -19,6 +19,16 @@ exports.signup = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
+    const cookieOptions = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: true,
+    };
+
+    res.cookie("jwt", token, cookieOptions);
+
     // Remove password
     newUser.password = undefined;
 
@@ -61,6 +71,16 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
+
+    const cookieOptions = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: false,
+    };
+
+    res.cookie("jwt", token, cookieOptions);
 
     // Remove password
     user.password = undefined;
@@ -168,11 +188,59 @@ exports.resetPassword = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
+    const cookieOptions = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: true,
+    };
+
+    res.cookie("jwt", token, cookieOptions);
+
     res.status(200).json({
       status: "success",
       token: token,
       data: {
         user,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+
+exports.protectRoute = async (req, res, next) => {
+  try {
+    // const token = req.headers.Authorization.slice(" ")[1];
+
+    // if (!token) {
+    //   return res.status(401).json({
+    //     status: "failed",
+    //     message: "Try again to login !",
+    //   });
+    // }
+
+    const userToken = req.cookies.jwt;
+
+    if (!userToken) {
+      return res.status(401).json({
+        status: "failed",
+        message: "You are not logged in yet!",
+      });
+    }
+
+    const decoded = jwt.verify(userToken, process.env.JWT_SECRET);
+    const currentUser = await User.findById(decoded.id);
+
+    res.status(200).json({
+      status: "success",
+      message: "You have a permission to access this route",
+      data: {
+        currentUser,
       },
     });
   } catch (error) {
