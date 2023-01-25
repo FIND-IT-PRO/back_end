@@ -34,15 +34,13 @@
    "typeObjet_id":"----??"   :grin:  	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé. }
    ```
    
- ## Il faut d'abord supprimer le document detail qui a été créé.   
+ ## Il faut d'abord supprimer le document detail qui a été créé pour vérifier .   
         
 ### DELETE http://localhost:8080/detail/copier ici L'id details(_id)
-	
-            vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive 	
-          
-          le code qui faire ca : 
-           j'ai declaré deux fonction au niveau de controller Details : inactiveTypeObjet() et 
-            inactiveContact qui permettent de archiver les models ({status:"inactive"})
+- **vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive 	
+ le code qui faire ca :
+  j'ai declaré deux fonction au niveau de controller Details : inactiveTypeObjet() et 
+            inactiveContact qui permettent d'archiver les models asssocie ({status:"inactive"})**
 
           
 
