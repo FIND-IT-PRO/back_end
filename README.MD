@@ -10,35 +10,34 @@
  #### POST (typeobjet)
  #### POST http://localhost:8080/typeObjet  
        
-  
-        {
+  ```
+  {
     "categorie":"phone",
-    "sousCatergorie":"samsung"
-}
+    "sousCatergorie":"samsung" }
+  ```
          
   ####   POST (contact) POST http://localhost:8080/contact  
-
-        
+```
        {
     "nome":"wahabi",
     "prenom":"azdine",
     "tel":"0265059022",
     "email":"wahabi@hotmail.com"
 }
-  ### POST (details): http://localhost:8080/detail  
-         ```
-          {
+```
+  ### POST (details): http://localhost:8080/detail 
+    {
    "text":"Projet Test",
    "images":"https://mongoosejs.com/docs/api/model.html#model_Model-findByIdAndUpdate",
    "typeObjet_id":"----??", :grin:	 Il faut copier ici l'identifiant de typeObjet, qui a déjà été créé.
-   "typeObjet_id":"----??"   :grin:  	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé.
+   "typeObjet_id":"----??"   :grin:  	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé. }
+   
+      
+ 
 
-}
-
-```
          
-         Il faut d'abord supprimer le document detail qui a été créé.   
-         DELETE http://localhost:8080/detail/copier ici L'id details(_id)
+        > Il faut d'abord supprimer le document detail qui a été créé.   
+        #### DELETE http://localhost:8080/detail/copier ici L'id details(_id)
             vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive 	
           
           le code qui faire ca : 
