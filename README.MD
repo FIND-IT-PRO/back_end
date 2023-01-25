@@ -7,7 +7,7 @@
 ## Mise en place de trois tableaux(models). TypeObjet-Details-Contact avec relation one to one entre Details et TypeObjet et Details et Contact 
 
  ### pour tester  CROUD : 
- #### POST (typeobjet)
+
  #### POST http://localhost:8080/typeObjet  
        
   ```
@@ -16,7 +16,7 @@
     "sousCatergorie":"samsung" }
   ```
          
-  ####   POST (contact) POST http://localhost:8080/contact  
+  ###   POST (contact) POST http://localhost:8080/contact  
 ```
        {
     "nome":"wahabi",
