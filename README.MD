@@ -4,7 +4,7 @@
 
 #Voici un résumé de mon travail. :man_technologist:	 
 
-## Mise en place de trois tableaux(models). TypeObjet-Details-Contact avec relation one to one entre Details et TypeObjet et Details et Contact 
+## Mise en place de trois tableaux(models). TypeObjet-Details-Contact avec relation one to one entre Details et TypeObjet et entre  Details et Contact 
 
  ### pour tester  CROUD : 
 
