@@ -30,8 +30,8 @@
     {
    "text":"Projet Test",
    "images":"https://mongoosejs.com/docs/api/model.html#model_Model-findByIdAndUpdate",
-   "typeObjet_id":"----??", :grin:	 Il faut copier ici l'identifiant de typeObjet, qui a déjà été créé.
-   "typeObjet_id":"----??"   :grin:  	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé. }
+   "typeObjet_id":"----??", 	 Il faut copier ici l'identifiant de typeObjet, qui a déjà été créé.
+   "typeObjet_id":"----??"    	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé. }
    ```
    
  ## Il faut d'abord supprimer le document detail qui a été créé pour vérifier est ce que les modèles associés seront archivés automatiquement ⁉️	  .   
