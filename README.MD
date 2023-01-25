@@ -34,9 +34,10 @@
    "typeObjet_id":"----??"   :grin:  	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé. }
    ```
    
-       
-        > Il faut d'abord supprimer le document detail qui a été créé.   
-        #### DELETE http://localhost:8080/detail/copier ici L'id details(_id)
+ ## Il faut d'abord supprimer le document detail qui a été créé.   
+        
+### DELETE http://localhost:8080/detail/copier ici L'id details(_id)
+	
             vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive 	
           
           le code qui faire ca : 
