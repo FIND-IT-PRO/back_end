@@ -6,9 +6,9 @@
 
 ## Mise en place de trois tableaux(models). TypeObjet-Details-Contact avec relations one to one entre Details et TypeObjet et Details et Contact 
 
-### pour tester  CROUD : 
-  #### POST (typeobjet)
-     #### POST http://localhost:8080/typeObjet  :blush:
+  pour tester  CROUD : 
+  POST (typeobjet)
+  POST http://localhost:8080/typeObjet  
        
      ```
         {
@@ -16,8 +16,8 @@
     "sousCatergorie":"samsung"
 }
          ```
-    #### POST (contact)
-        #### POST http://localhost:8080/contact  :blush:
+     POST (contact)
+         POST http://localhost:8080/contact  
 
         ```
        {
@@ -29,7 +29,7 @@
 
         ```
 
-         #### POST (details): http://localhost:8080/detail  :blush:
+          POST (details): http://localhost:8080/detail  
          ```
           {
    "text":"Projet Test",
@@ -39,12 +39,13 @@
 
 }
          ```
-       ### Il faut d'abord supprimer le document detail qui a été créé. :thinking:	  
-        #### DELETE http://localhost:8080/detail/copier ici L'id details(_id)
-           ### vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive :relieved:	
+         Il faut d'abord supprimer le document detail qui a été créé.   
+         DELETE http://localhost:8080/detail/copier ici L'id details(_id)
+            vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive 	
           
           le code qui faire ca : 
-           j'ai declaré deux fonction au niveau de controller Details : inactiveTypeObjet() et inactiveContact qui permettent de archiver les models ({status:"inactive"})
+           j'ai declaré deux fonction au niveau de controller Details : inactiveTypeObjet() et 
+            inactiveContact qui permettent de archiver les models ({status:"inactive"})
 
           
 
