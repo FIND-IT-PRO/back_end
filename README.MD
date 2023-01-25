@@ -6,20 +6,20 @@
 
 ## Mise en place de trois tableaux(models). TypeObjet-Details-Contact avec relations one to one entre Details et TypeObjet et Details et Contact 
 
-  pour tester  CROUD : 
-  POST (typeobjet)
-  POST http://localhost:8080/typeObjet  
+ ### pour tester  CROUD : 
+ #### POST (typeobjet)
+ #### POST http://localhost:8080/typeObjet  
        
-     ```
+  
         {
     "categorie":"phone",
     "sousCatergorie":"samsung"
 }
-         ```
-     POST (contact)
+         
+  ####   POST (contact)
          POST http://localhost:8080/contact  
 
-        ```
+        
        {
     "nome":"wahabi",
     "prenom":"azdine",
@@ -27,10 +27,10 @@
     "email":"wahabi@hotmail.com"
 }
 
-        ```
+       
 
-          POST (details): http://localhost:8080/detail  
-         ```
+       POST (details): http://localhost:8080/detail  
+         
           {
    "text":"Projet Test",
    "images":"https://mongoosejs.com/docs/api/model.html#model_Model-findByIdAndUpdate",
@@ -38,7 +38,7 @@
    "typeObjet_id":"----??"   :grin:  	 Il faut copier ici l'identifiant typeObjet , qui a déjà été créé.
 
 }
-         ```
+         
          Il faut d'abord supprimer le document detail qui a été créé.   
          DELETE http://localhost:8080/detail/copier ici L'id details(_id)
             vérifier est ce que les models associe TypeObjet et Contact sont aussi inactive 	
