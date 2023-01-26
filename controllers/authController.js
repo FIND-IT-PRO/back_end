@@ -156,6 +156,7 @@ exports.forgetPassword = async (req, res, next) => {
   }
 };
 
+//? Reset Password Handling
 exports.resetPassword = async (req, res, next) => {
   try {
     // 1) Get user based on the token
@@ -213,6 +214,7 @@ exports.resetPassword = async (req, res, next) => {
   }
 };
 
+//? Protecting the routes
 exports.protectRoute = async (req, res, next) => {
   try {
     // const token = req.headers.Authorization.slice(" ")[1];
@@ -220,7 +222,7 @@ exports.protectRoute = async (req, res, next) => {
     // if (!token) {
     //   return res.status(401).json({
     //     status: "failed",
-    //     message: "Try again to login !",
+    //     message: "Try again later!",
     //   });
     // }
 
@@ -243,6 +245,19 @@ exports.protectRoute = async (req, res, next) => {
         currentUser,
       },
     });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+
+//? LogOut Handling
+exports.logout = async (req, res, next) => {
+  try {
+    res.clearCookie("jwt").send("You're logout successfuly!");
+    // res.send("You're logout successfuly!");
   } catch (error) {
     res.status(400).json({
       status: "error",
