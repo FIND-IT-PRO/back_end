@@ -18,7 +18,7 @@ const User = require("../models/users");
 //? Signup Handling
 exports.signup = async (req, res) => {
   try {
-    const user = await User.findOne(req.body.email);
+    const user = await User.findOne({ email: req.body.email });
     if (user) {
       return res.status(401).json({
         status: "failed",
