@@ -16,6 +16,7 @@ PUT http://localhost:8080/api/v1/posts
 "title": "Feeling grateful for the opportunity to hike",
 "body": "The fresh air, the stunning views, and the sense of accomplishment made for an unforgettable experience. I highly recommend it to anyone looking to reconnect with nature and push themselves physically.",
 "status": "active",
+"images":["img1.uri.jpg","img2.url.jpg"],
 "location": {
 "type": "Point",
 "coordinates": [44.26, -110.8]

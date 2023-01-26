@@ -26,6 +26,7 @@
   },
   "author": "Mohammed EL BAKKALI EL AMMARI _ Sohaib manah _ ZenaguiAna said_frikh  ",
   "devDependencies": {
+    "eslint": "^1.10.3",
     "nodemon": "^2.0.20"
   }
 }
