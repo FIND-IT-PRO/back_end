@@ -141,12 +141,10 @@ exports.forgetPassword = async (req, res, next) => {
 
       console.log(error);
 
-      return next(
-        new AppError(
-          "There was an error sending the email. try again later!",
-          500
-        )
-      );
+      res.status(500).json({
+        status: "failed",
+        message: "There was an error sending the email. try again later!",
+      });
     }
   } catch (error) {
     res.status(400).json({
