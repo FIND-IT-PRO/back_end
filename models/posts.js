@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const isCoordantesValid = require("../helpers/isCoordantesValid");
 const dateSchema = require("./dateSchema");
 
 const pointSchema = new mongoose.Schema(
@@ -16,20 +17,6 @@ const pointSchema = new mongoose.Schema(
   },
   { _id: false }
 );
-
-function isCoordantesValid(val) {
-  console.log(val); //check the range of the coordinates
-  if (val.length != 2) {
-    return false;
-  }
-  if (val[0] < -180 || val[0] > 180) {
-    return false; //2pi (phi of the sphere)
-  }
-  if (val[1] < -90 || val[1] > 90) {
-    return false; //pi (teta of the  sphere)
-  }
-  return true;
-}
 
 // function arrayLimit(val,limit) {
 //     return val.length <= limit;
@@ -63,12 +50,10 @@ const PostSchema = new mongoose.Schema({
     enum: ["active", "inactive"],
     default: "active",
   },
-  images: [
-    {
-      type: [String],
-      required: false, //tmp
-    },
-  ],
+  images: {
+    type: [String],
+    required: true, //tmp
+  },
   location: {
     type: pointSchema,
   },
