@@ -15,7 +15,7 @@ router.route("/logout").get(authController.logout);
 
 // User Routes
 router.route('/updateMyInfo/:id').patch(userController.updateMyInfo);
-// router.route('/updateMyPassword/:id').patch(userController.updateMyPassword);
+router.route('/updateMyPassword/:id').patch(userController.updateMyPassword);
 // router.route('/deleteMyAccount').delete(userController.deleteMyAccount);
 
 // Authorization route
