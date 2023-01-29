@@ -126,3 +126,40 @@ exports.updateMyPassword = async (req, res, next) => {
     });
   }
 };
+
+exports.deleteMyAccount = async (req, res, next) => {
+  try {
+
+    let token;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+
+    if (!token) {
+      return res.status(401).json({
+        status: "failed",
+        message: "You didn't login yet, Try later!",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    await User.findByIdAndDelete(decoded.id);
+
+    res.status(204).json({
+      status: 'success',
+      data: 'deleted successfuly!'
+    })
+
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: error,
+    });
+  }
+}
