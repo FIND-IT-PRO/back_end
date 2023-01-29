@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const coockieParser = require("cookie-parser");
 const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
+const commentsRouter = require("./routes/comments.js");
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 
@@ -27,6 +28,7 @@ app.use(coockieParser());
 const apiPrefix = "/api/v1/";
 app.use(apiPrefix + "users/", usersRouter);
 app.use(apiPrefix + "posts/", postsRouter);
+app.use(apiPrefix + "comments/", commentsRouter);
 
 // not found
 app.use((_, res) => {

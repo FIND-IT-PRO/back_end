@@ -1,8 +1,10 @@
 const { ObjectId } = require("mongoose").Types;
 const posts = require("../models/posts");
+const comments = require("../models/comments");
 class Posts {
   constructor() {
     this.collection = posts; //posts is a collection(model)
+    this.helperCollection = comments;
   }
   async getPost(id) {
     return await this.collection.findById(id);
@@ -28,6 +30,9 @@ class Posts {
       { $set: postUpdateFileds, "date.lastUpdateDate": new Date() },
       { new: true }
     );
+  }
+  async removePostComments(id) {
+    return this.helperCollection.deleteMany({ post_id: ObjectId(id) });
   }
 }
 module.exports = new Posts();
