@@ -14,9 +14,9 @@ router.route("/resetPassword/:token").post(authController.resetPassword);
 router.route("/logout").get(authController.logout);
 
 // User Routes
-router.route('/updateMyInfo/:id').patch(userController.updateMyInfo);
-router.route('/updateMyPassword/:id').patch(userController.updateMyPassword);
-router.route('/deleteMyAccount').delete(userController.deleteMyAccount);
+router.route("/updateMyInfo/:id").patch(userController.updateMyInfo);
+router.route("/updateMyPassword/:id").patch(userController.updateMyPassword);
+router.route("/deleteMyAccount").delete(userController.deleteMyAccount);
 
 // Authorization route
 router.route("/posts").get(authController.protectRoute);
