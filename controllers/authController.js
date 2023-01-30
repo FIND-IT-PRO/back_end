@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("../utils/mailing");
 const crypto = require("crypto");
 const { findById } = require("../models/users");
+const isEmailValid = require("../utils/isEmailValid");
 
 //? SignUP Handling
 exports.signup = async (req, res, next) => {
@@ -42,7 +43,10 @@ exports.signup = async (req, res, next) => {
 
     // createSendToken(newUser, 201, res);
   } catch (error) {
-    console.log(error);
+    res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
   }
 };
 
@@ -58,15 +62,11 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email })?.select("+password");
+    if (!user) throw new Error("Incorrect email or password!");
     const correctPassword = await user.correctPassword(password, user.password);
-
-    if (!user || !correctPassword) {
-      return res.status(401).json({
-        status: "failed",
-        message: "Incorrect email or password!",
-      });
-    }
+    if (!user || !correctPassword)
+      throw new Error("Incorrect email or password!");
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
@@ -93,9 +93,10 @@ exports.login = async (req, res, next) => {
       },
     });
   } catch (error) {
-    res.status(400).json({
+    // console.log(error);
+    res.status(401).json({
       status: "error",
-      message: error,
+      message: error.message,
     });
   }
 };
@@ -106,7 +107,7 @@ exports.forgetPassword = async (req, res, next) => {
     // 1) Get user based on POSTed email
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status(404).json({
+      return res.status(404).json({
         status: "failed",
         message: "There is no user with this email address!",
       });
@@ -124,15 +125,15 @@ exports.forgetPassword = async (req, res, next) => {
     const text = `Forgot your password ? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
     try {
+      res.status(200).json({
+        status: "sucess",
+        message: "Token sent to email!",
+      });
+
       await sendEmail({
         email: user.email,
         subject: "Your password reset token (valid for 10 min)",
         text,
-      });
-
-      res.status(200).json({
-        status: "sucess",
-        message: "Token sent to email!",
       });
     } catch (error) {
       user.passwordResetToken = undefined;
@@ -147,6 +148,7 @@ exports.forgetPassword = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       status: "error",
       message: error,
@@ -262,4 +264,23 @@ exports.logout = async (req, res, next) => {
       message: error,
     });
   }
+};
+
+exports.checkEmailAndPasswordExistence = async function (req, res, next) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send({
+      message: "Email or password missing.",
+    });
+  }
+  //? this is the middleware that checks if the email is valid(syntax and domain and smtp pinging the designated email server) ))
+  const { valid, reason, validators } = await isEmailValid(email);
+
+  if (!valid)
+    return res.status(400).send({
+      message: "Please provide a valid email address.",
+      reason: validators[reason].reason,
+    });
+  next();
 };

@@ -27,6 +27,7 @@ exports.updateMyInfo = async (req, res, next) => {
     console.log(token, user);
 
     if (!user && !token) {
+
       return res.status(401).json({
         status: "failed",
         message: "You cannot update your information account, Try to logging!",
@@ -163,3 +164,4 @@ exports.deleteMyAccount = async (req, res, next) => {
     });
   }
 }
+
