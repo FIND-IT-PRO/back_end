@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     const { comment } = req.body;
     if (!comment) throw new Error("comment is required");
     const newComment = await commentsController.createComment(comment);
-    res.status(200).json({ status: "succes", data: newComment });
+    res.status(201).json({ status: "succes", data: newComment });
   } catch (e) {
     res.status(400).json({
       status: "fail",

@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
     const urls = blockBlobClients.map((blockBlobClient) => blockBlobClient.url);
     // console.log("🚀 ~ file: storages.js:18 ~ router.post ~ urls", urls);
     await StorageController.uploadFiles(blockBlobClients, req.files);
-    res.status(200).json({
+    res.status(201).json({
       status: "success",
       data: urls,
     });

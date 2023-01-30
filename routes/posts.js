@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
     const { post: Newpost } = req.body;
     if (!Newpost) throw new Error("post is required");
     const post = await postController.createPost(Newpost);
-    res.status(200).json({ status: "succes", data: post });
+    res.status(201).json({ status: "succes", data: post });
   } catch (e) {
     res.status(400).json({
       status: "fail",
