@@ -10,7 +10,7 @@ router.get("/:id", async (req, res) => {
     if (!post) throw new Error("post not found");
     res.status(200).json({ status: "success", data: post });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     if (!posts) throw new Error("posts not found");
     res.status(200).json(posts);
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
     const post = await postController.createPost(Newpost);
     res.status(200).json({ status: "succes", data: post });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -54,7 +54,7 @@ router.delete("/:id", async (req, res) => {
     if (!post) throw new Error("post not found");
     res.status(200).json({ status: "succes", data: post });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -72,7 +72,7 @@ router.patch("/:id", async (req, res) => {
     if (!post) throw new Error("post not found");
     res.status(200).json({ status: "succes", data: post });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -85,7 +85,7 @@ router.delete("/:id/comments/", async (req, res) => {
     if (!comments) throw new Error("comment not found");
     res.status(200).json({ status: "succes", data: comments });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });

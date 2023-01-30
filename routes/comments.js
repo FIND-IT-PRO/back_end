@@ -10,7 +10,7 @@ router.get("/:id", async (req, res) => {
     if (!comments) throw new Error("comments not found");
     res.status(200).json({ status: "success", data: comments });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
     const newComment = await commentsController.createComment(comment);
     res.status(200).json({ status: "succes", data: newComment });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -37,7 +37,7 @@ router.delete("/:id", async (req, res) => {
     if (!comment) throw new Error("comment not found");
     res.status(200).json({ status: "succes", data: comment });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -56,7 +56,7 @@ router.patch("/:id", async (req, res) => {
     if (!comment) throw new Error("comment not found");
     res.status(200).json({ status: "succes", data: comment });
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });

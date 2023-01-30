@@ -25,7 +25,7 @@ router.delete("/", async (req, res) => {
     });
   } catch (e) {
     // console.log(e);
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
     });
   } catch (e) {
     // console.log(e);
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
@@ -82,7 +82,7 @@ router.put("/", async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });

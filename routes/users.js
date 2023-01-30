@@ -9,7 +9,7 @@ router.get("/:id", async (req, res) => {
     const user = await UsersController.getUser(id);
     res.status(200).json(user);
   } catch (e) {
-    res.status(500).json({
+    res.status(400).json({
       status: "fail",
       message: e.message,
     });
