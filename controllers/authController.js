@@ -256,7 +256,10 @@ exports.protectRoute = async (req, res, next) => {
 //? LogOut Handling
 exports.logout = async (req, res, next) => {
   try {
-    res.clearCookie("jwt").send("You're logout successfuly!");
+    res.clearCookie("jwt").json({
+      status: "success",
+      message: "You're logout successfuly!",
+    });
     // res.send("You're logout successfuly!");
   } catch (error) {
     res.status(400).json({
