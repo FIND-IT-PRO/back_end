@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
       );
     const posts = await postController.getPosts(n);
     if (!posts) throw new Error("posts not found");
-    res.status(200).json(posts);
+    res.status(200).json({ status: "success", data: posts });
   } catch (e) {
     res.status(400).json({
       status: "fail",
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
     const { post: Newpost } = req.body;
     if (!Newpost) throw new Error("post is required");
     const post = await postController.createPost(Newpost);
-    res.status(201).json({ status: "succes", data: post });
+    res.status(201).json({ status: "success", data: post });
   } catch (e) {
     res.status(400).json({
       status: "fail",
@@ -52,7 +52,7 @@ router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     const post = await postController.removePost(id);
     if (!post) throw new Error("post not found");
-    res.status(200).json({ status: "succes", data: post });
+    res.status(200).json({ status: "success", data: post });
   } catch (e) {
     res.status(400).json({
       status: "fail",
@@ -70,7 +70,7 @@ router.patch("/:id", async (req, res) => {
       ...postUpdateFileds,
     });
     if (!post) throw new Error("post not found");
-    res.status(200).json({ status: "succes", data: post });
+    res.status(200).json({ status: "success", data: post });
   } catch (e) {
     res.status(400).json({
       status: "fail",
@@ -83,7 +83,7 @@ router.delete("/:id/comments/", async (req, res) => {
     const { id } = req.params;
     const comments = await postController.removePostComments(id);
     if (!comments) throw new Error("comment not found");
-    res.status(200).json({ status: "succes", data: comments });
+    res.status(200).json({ status: "success", data: comments });
   } catch (e) {
     res.status(400).json({
       status: "fail",

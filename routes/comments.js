@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     const { comment } = req.body;
     if (!comment) throw new Error("comment is required");
     const newComment = await commentsController.createComment(comment);
-    res.status(201).json({ status: "succes", data: newComment });
+    res.status(201).json({ status: "success", data: newComment });
   } catch (e) {
     res.status(400).json({
       status: "fail",
@@ -35,7 +35,7 @@ router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     const comment = await commentsController.removeComment(id);
     if (!comment) throw new Error("comment not found");
-    res.status(200).json({ status: "succes", data: comment });
+    res.status(200).json({ status: "success", data: comment });
   } catch (e) {
     res.status(400).json({
       status: "fail",
@@ -54,7 +54,7 @@ router.patch("/:id", async (req, res) => {
       ...commentUpdateFileds,
     });
     if (!comment) throw new Error("comment not found");
-    res.status(200).json({ status: "succes", data: comment });
+    res.status(200).json({ status: "success", data: comment });
   } catch (e) {
     res.status(400).json({
       status: "fail",

@@ -20,7 +20,7 @@ router.delete("/", async (req, res) => {
     const { categorie } = req.query;
     const result = await StorageController.removeUploadedFile(url, categorie);
     res.status(200).json({
-      status: "succes",
+      status: "success",
       data: result,
     });
   } catch (e) {
@@ -77,7 +77,7 @@ router.put("/", async (req, res) => {
       req.files[fileKey[0]]
     );
     res.status(200).json({
-      status: "succes",
+      status: "success",
       data: result,
     });
   } catch (e) {
