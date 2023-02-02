@@ -1,135 +1,10 @@
 <!-- test this  api call to check that all is working -->
 
-http://localhost:8080/api/v1/users/63cdaca604ff20d37d57b12d
-
-# CRUD ON POSTS
-
-PUT http://localhost:8080/api/v1/posts
-
-## create a post ( insert ) (todo :image upload)
-
-```
-{
-	"post":
-	{
-"user_id": "5f3d3c3e2f2d3c5b3c5b3c5d",
-"title": "Feeling grateful for the opportunity to hike",
-"body": "The fresh air, the stunning views, and the sense of accomplishment made for an unforgettable experience. I highly recommend it to anyone looking to reconnect with nature and push themselves physically.",
-"status": "active",
-"images":["img1.uri.jpg","img2.url.jpg"],
-"location": {
-"type": "Point",
-"coordinates": [44.26, -110.8]
-}
-}
-
-
-}
-```
-
-## repost (todo)
-
-## get a post by id
-
-GET http://localhost:8080/api/v1/posts/63cec79dd41aea7cb7cedc10
-
-## get all posts(random )
-
-GET http://localhost:8080/api/v1/posts
-
-## edit a post ( update )
-
-PATCH http://localhost:8080/api/v1/posts/63cec825310f7c9d516aaef2
-
-```
-{
-    "post":
-    {
-        "title":"my new title"
-    }
-}
-
-```
-
-## remove a post ( delete )
-
-POST http://localhost:8080/api/v1/posts/63cec79dd41aea7cb7cedc10
-
-# CRUD ON COMMENTS
-
-## GET COMMENTS BY POST ID
-
-GET localhost:8080/api/v1/comments/63cec825310f7c9d516aaef2
-
-## POST A COMMENT (CREATE A COMMENT)
-
-POST http://localhost:8080/api/v1/comments
-
-```
-{
-  "comment":
-  {
-"_id": "63cec825310f7c9d516aaef3",
-"user_id": "5f3d3c3e2f2d3c5b3c5b3c5f",
-"post_id": "63cec825310f7c9d516aaef2",
-"content": "This post is great, I can relate to it so much!",
-"parent_id": null
-}
-}
-```
-
-## REPLY TO A COMMENT( CREATE A COMMENT POINTING ON THE PARENT COMMENT)
-
-```
-{
-  "comment":
-  {
-"_id": "63cec825310f7c9d516aae22",
-"user_id": "5f3d3c3e2f2d3c5b3c5b3c5f",
-"post_id": "63cec825310f7c9d516aaef2",
-"content": "This post is great, I can relate to it so much!",
-"parent_id": "63cec825310f7c9d516aaef5"
-}
-}
-```
-
-## PATCH A COMMENT (UPDATE A COMMENT)
-
-PATCH localhost:8080/api/v1/comments/63cec825310f7c9d516aaef3
-
-```
-{
-    "comment":
-    {
-        "content":"my new content"
-    }
-}
-
-```
-
-## DELETE A COMMENT BY POST (ID) (DELETE COMMENTS) (ALL COMMENTS RELATED TO A POST)
-
-DELETE localhost:8080/api/v1/posts/63cec825310f7c9d516aaef2/comments
-
-## DELETE A COMMENT BY ID (COMMENT OWNER) (DELETE A COMMENT) (ONE COMMENT)
-
-DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
-
-## DELETE A COMMENT BY ID (POST OWNER) (DELETE A COMMENT) (INFO:AUTH NEED TO BE ADDED)
-
-# CRUD ON REACTS
-
-```
-
-```
-
-# CRUD ON USERES
 # Authentication - Documentation
 
 # The dependencies installed
 
 - **validator.js**
-    
     <aside>
     📌 **⇒ Link to install it**
     
@@ -140,9 +15,9 @@ DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
     ```
     
     </aside>
-    
+
 - **jsonwebtoken**
-    
+
     <aside>
     📌 **⇒ The link to install it :**
     
@@ -153,10 +28,10 @@ DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
     ```
     
     </aside>
-    
 
-- ****bcrypt.js****
-    
+
+- \***\*bcrypt.js\*\***
+
     <aside>
     📌 **⇒ The link to install it :**
     
@@ -167,10 +42,10 @@ DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
     ```
     
     </aside>
-    
 
-- ****nodemailer****
-    
+
+- \***\*nodemailer\*\***
+
     <aside>
     📌 **⇒ The link to install it :**
     
@@ -185,10 +60,9 @@ DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
     [](http://smtp.mailtrap.io/)
     
     </aside>
-    
+
 
 - **crypto**
-    
     <aside>
     📌 ⇒ The `crypto`module provides cryptographic functionality that includes a set of wrappers for OpenSSL's hash, HMAC, cipher, decipher, sign, and verify functions.
     
@@ -197,32 +71,31 @@ DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
     ```
     
     </aside>
-    
+
 
 # The extension used
 
-- ****Thunder Client****
-    
+- \***\*Thunder Client\*\***
+
     <aside>
     📌 Thunder Client is a lightweight Rest API Client Extension for Visual Studio Code, hand-crafted by [Ranga Vadhineni](https://twitter.com/ranga_vadhineni) with simple and clean design.
     
     [Thunder Client - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
     
     </aside>
-    
 
-- ****Prettier - Code formatter****
-    
+
+- \***\*Prettier - Code formatter\*\***
+
     <aside>
     📌 [**Prettier**](https://prettier.io/) is an opinionated code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
     
     [Prettier - Code formatter - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
     
     </aside>
-    
 
-- ****Better Comments****
-    
+
+- \***\*Better Comments\*\***
     <aside>
     📌 The Better Comments extension will help you create more human-friendly comments in your code With this extension, you will be able to categorise your annotations into:
     
@@ -236,26 +109,25 @@ DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
     [Better Comments - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments)
     
     </aside>
-    
-- ****Error Lens****
-    
+
+- \***\*Error Lens\*\***
+
     <aside>
     📌 ErrorLens turbo-charges language diagnostic features by making diagnostics stand out more prominently, highlighting the entire line wherever a diagnostic is generated by the language and also prints the message inline.
     
     [Error Lens - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
     
     </aside>
-    
 
-- ****IntelliCode****
-    
+
+- \***\*IntelliCode\*\***
     <aside>
     📌 The [Visual Studio IntelliCode](https://go.microsoft.com/fwlink/?linkid=872679) extension provides AI-assisted development features for Python, TypeScript/JavaScript and Java developers in Visual Studio Code, with insights based on understanding your code context combined with machine learning.
     
     [IntelliCode - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode)
     
     </aside>
-    
+
 
 # Documentation
 
@@ -320,7 +192,6 @@ exports.signup = async (req, res, next) => {
         newUser,
       },
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -492,9 +363,9 @@ exports.forgetPassword = async (req, res, next) => {
       console.log(error);
 
       res.status(500).json({
-        status: 'failed',
-        message: 'There was an error sending the email. try again later!'
-      })
+        status: "failed",
+        message: "There was an error sending the email. try again later!",
+      });
     }
   } catch (error) {
     res.status(400).json({
@@ -508,10 +379,10 @@ exports.forgetPassword = async (req, res, next) => {
 <aside>
 📌 This source code exports a function called "forgetPassword" which is used to handle requests related to forgot password functionality. The function is an asynchronous function that takes in three parameters, req, res and next.
 
-1. First, the function attempts to find a user based on the `**email`** address submitted in the request body. If the user is not found, it sends a response with a `**404**` status code and a message indicating that there is no user with this email address.
-2. If the user is found, the function generates a random password reset token and assigns it to the user's `**passwordResetToken`** field. The user is then saved to the database, with the **`validateBeforeSave`** option set to false.
-3. Next, the function sends a password reset token to the user's `**email`** address. It creates a URL that includes the reset token and sends it in an email. The email also includes instructions on how to submit a PATCH request with the new password and **`passwordConfirm`**.
-4. If there is an error sending the email, the function sets the user's **`passwordResetToken`** and **`passwordResetExpires`** fields to undefined and saves the user to the database. It also logs the error  sending the email and to try again later.
+1. First, the function attempts to find a user based on the `**email`** address submitted in the request body. If the user is not found, it sends a response with a `**404\*\*` status code and a message indicating that there is no user with this email address.
+2. If the user is found, the function generates a random password reset token and assigns it to the user's `**passwordResetToken`** field. The user is then saved to the database, with the **`validateBeforeSave`\*\* option set to false.
+3. Next, the function sends a password reset token to the user's `**email`** address. It creates a URL that includes the reset token and sends it in an email. The email also includes instructions on how to submit a PATCH request with the new password and **`passwordConfirm`\*\*.
+4. If there is an error sending the email, the function sets the user's **`passwordResetToken`** and **`passwordResetExpires`** fields to undefined and saves the user to the database. It also logs the error sending the email and to try again later.
 5. If there is any other error, it sends an error response with a **`400`** status code and the error message.
 </aside>
 
