@@ -19,7 +19,4 @@ router.route("/updateMyInfo/:id").patch(userController.updateMyInfo);
 router.route("/updateMyPassword/:id").patch(userController.updateMyPassword);
 router.route("/deleteMyAccount").delete(userController.deleteMyAccount);
 
-// Authorization route
-router.route("/posts").get(authController.protectRoute);
-
 module.exports = router;
