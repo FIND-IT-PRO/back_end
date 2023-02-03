@@ -27,15 +27,14 @@ class Authorization {
   async bodyGard(req, res, next) {
     try {
       const { body } = req;
-      const ifFraud = 0;
-      Object.keys(body).map((key) => {
+      Object.keys(body).map(async (key) => {
         const el = body[key];
         switch (key) {
           case "comment":
             commentBodyChecker(el);
             break;
-          case "posts":
-            postBodyChecker(el);
+          case "post":
+            await postBodyChecker(el);
             break;
           default:
             throw new Error("anwanted fileds in the body ");

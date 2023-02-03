@@ -95,13 +95,33 @@ class Storage {
     return uploadBlobResponse;
   }
   async removeUploadedFile(url, containerName) {
+    // console.log(
+    //   "🚀 ~ file: storage.js:98 ~ Storage ~ removeUploadedFile ~ url",
+    //   url
+    // );
     //it remains 7 days by the way but the link will be unuseable
     this.containerClient =
       this.blobServiceClient.getContainerClient(containerName);
+
     const blockBlobClient = this.containerClient.getBlockBlobClient(
       blobNameFromUrl(url)
     );
+    // return new Promise((resolve, reject) => resolve());
     return await blockBlobClient.delete();
+  }
+  async validBlobLink(imagesUrl, containerName) {
+    let isValid = true;
+    this.containerClient =
+      this.blobServiceClient.getContainerClient(containerName);
+
+    for (let i = 0; i < imagesUrl.length; i++) {
+      const blockBlobClient = this.containerClient.getBlockBlobClient(
+        blobNameFromUrl(imagesUrl[i])
+      );
+      isValid = await blockBlobClient.exists();
+      if (!isValid) break;
+    }
+    return isValid;
   }
 }
 

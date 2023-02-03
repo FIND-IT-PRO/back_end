@@ -1,5 +1,5 @@
 const express = require("express");
-const { authGard } = require("../controllers/authorization");
+const { authGard, bodyGard } = require("../controllers/authorization");
 const router = express.Router();
 const postController = require("../controllers/posts"); //UsersController is the class (controller)
 
@@ -34,6 +34,7 @@ router.get("/", async (req, res) => {
     });
   }
 });
+router.use(bodyGard);
 // AuthGard should be added
 router.use(authGard); //check if the user is logedin in and add its id as a user_id to the req object
 // post methode

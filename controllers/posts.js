@@ -1,6 +1,8 @@
 const { ObjectId } = require("mongoose").Types;
 const posts = require("../models/posts");
 const comments = require("../models/comments");
+const StorageController = require("./storage");
+const storage = require("./storage");
 class Posts {
   constructor() {
     this.collection = posts; //posts is a collection(model)
@@ -13,16 +15,52 @@ class Posts {
     return this.collection.aggregate([{ $sample: { size: n } }]); //get randome posts
   }
   async createPost(data) {
-    const post = await this.collection.create({
-      _id: ObjectId(),
-      ...data,
-    });
-    // console.log(data);
-    post.save();
-    return post;
+    try {
+      const post = await this.collection.create({
+        _id: ObjectId(),
+        ...data,
+      });
+      const { images } = post;
+      const isImageExists = await storage.validBlobLink(images, "images");
+      const { videos } = post;
+      const isVideoExists = await storage.validBlobLink(videos, "videos");
+
+      // console.log(data);
+      if (!isImageExists || !isVideoExists)
+        throw new Error("the provided link are not genrated with our api");
+      post.save();
+      return post;
+    } catch (e) {
+      // console.log(e);
+      throw e; // throw it to the last handler
+    }
   }
   async removePost(id, user_id) {
-    return this.collection.deleteOne({ _id: ObjectId(id), user_id });
+    // removes the post's images from the azure server
+    const post = await this.collection.findOne(
+      { _id: ObjectId(id) },
+      { images: 1, videos: 1 }
+    );
+    if (!post) return null;
+    console.log("🚀 ~ file: posts.js:33 ~ Posts ~ removePost ~ post", post);
+    const { images } = post;
+    // removing image by image
+    //! need to be refactore
+    images.map(
+      async (imgUrl) =>
+        await StorageController.removeUploadedFile(imgUrl, "images")
+    );
+    const { videos } = post;
+    // console.log("🚀 ~ file: posts.js:38 ~ Posts ~ removePost ~ videos", videos);
+    videos.map(
+      async (videoUrl) =>
+        await StorageController.removeUploadedFile(videoUrl, "vidoes")
+    );
+
+    return this.collection.deleteOne({
+      _id: ObjectId(id),
+      user_id,
+    });
   }
   async editPost(postUpdateFileds) {
     return this.collection.findOneAndUpdate(

@@ -1,10 +1,7 @@
 const User = require("../models/users");
-const mongoose = require("mongoose");
+const Posts = require("../models/users");
+const Comments = require("../models/users");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const { promisify } = require("util");
-const { findById } = require("../models/users");
-
 
 //? Signup Handling
 exports.updateMyInfo = async (req, res, next) => {
@@ -19,15 +16,14 @@ exports.updateMyInfo = async (req, res, next) => {
 
     if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
+      req.headers.authorization.startsWith("Bearer")
     ) {
-      token = req.headers.authorization.split(' ')[1];
+      token = req.headers.authorization.split(" ")[1];
     }
 
     console.log(token, user);
 
     if (!user && !token) {
-
       return res.status(401).json({
         status: "failed",
         message: "You cannot update your information account, Try to logging!",
@@ -42,7 +38,6 @@ exports.updateMyInfo = async (req, res, next) => {
         message: "Something is wrong, Try to logging!",
       });
     }
-
 
     if (req.body.password || req.body.passwordConfirm) {
       return res.status(400).json({
@@ -72,17 +67,16 @@ exports.updateMyInfo = async (req, res, next) => {
 
 exports.updateMyPassword = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id);
 
     let token;
 
     if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
+      req.headers.authorization.startsWith("Bearer")
     ) {
-      token = req.headers.authorization.split(' ')[1];
+      token = req.headers.authorization.split(" ")[1];
     }
-
 
     if (!user && !token) {
       return res.status(401).json({
@@ -100,7 +94,6 @@ exports.updateMyPassword = async (req, res, next) => {
       });
     }
 
-
     if (!req.body.password) {
       return res.status(400).json({
         status: "failed",
@@ -111,7 +104,7 @@ exports.updateMyPassword = async (req, res, next) => {
 
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
-    await user.save({validateBeforeSave: true});
+    await user.save({ validateBeforeSave: true });
 
     res.status(200).json({
       status: "success",
@@ -119,7 +112,6 @@ exports.updateMyPassword = async (req, res, next) => {
         user,
       },
     });
-
   } catch (error) {
     res.status(400).json({
       status: "failed",
@@ -130,16 +122,14 @@ exports.updateMyPassword = async (req, res, next) => {
 
 exports.deleteMyAccount = async (req, res, next) => {
   try {
-
     let token;
 
     if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
+      req.headers.authorization.startsWith("Bearer")
     ) {
-      token = req.headers.authorization.split(' ')[1];
+      token = req.headers.authorization.split(" ")[1];
     }
-
 
     if (!token) {
       return res.status(401).json({
@@ -152,16 +142,19 @@ exports.deleteMyAccount = async (req, res, next) => {
 
     await User.findByIdAndDelete(decoded.id);
 
-    res.status(204).json({
-      status: 'success',
-      data: 'deleted successfuly!'
-    })
+    //  removing all posts and images and removing all comments reltaed to all my post
 
+    // removing all my  comments
+
+    // todo:adding more constraites
+    res.status(204).json({
+      status: "success",
+      data: "deleted successfuly!",
+    });
   } catch (error) {
     res.status(400).json({
       status: "failed",
       message: error,
     });
   }
-}
-
+};

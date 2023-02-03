@@ -12,6 +12,17 @@ class Comments {
     return await this.collection.find({ post_id: ObjectId(id) });
   }
   async createComment(data) {
+    const { post_id } = data;
+    const post = await this.helperCollection.findOne(
+      { _id: post_id },
+      { _id: 1 }
+    );
+    if (!post) throw new Error("there is not post with this id ");
+    // console.log(
+    //   "🚀 ~ file: comments.js:21 ~ Comments ~ createComment ~ post",
+    //   post
+    // );
+
     const comment = await this.collection.create({
       _id: ObjectId(),
       ...data,
