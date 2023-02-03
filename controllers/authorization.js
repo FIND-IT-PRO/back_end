@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const commentBodyChecker = require("../helpers/ commentBodyChecker");
+const postBodyChecker = require("../helpers/postBodyChecker");
 require("dotenv").config();
 class Authorization {
   constructor() {}
@@ -14,6 +16,32 @@ class Authorization {
       if (exp >= new Date()) throw new Error(UnauthorizedMessage);
       //so we can check if the same user who triger this api call
       res.user_id = id;
+      next();
+    } catch (e) {
+      res.status(401).json({
+        status: "failed",
+        message: e.message,
+      });
+    }
+  }
+  async bodyGard(req, res, next) {
+    try {
+      const { body } = req;
+      const ifFraud = 0;
+      Object.keys(body).map((key) => {
+        const el = body[key];
+        switch (key) {
+          case "comment":
+            commentBodyChecker(el);
+            break;
+          case "posts":
+            postBodyChecker(el);
+            break;
+          default:
+            throw new Error("anwanted fileds in the body ");
+        }
+      });
+
       next();
     } catch (e) {
       res.status(401).json({
