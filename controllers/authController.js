@@ -1,7 +1,7 @@
 const User = require("../models/users");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const sendEmail = require("../utils/mailing");
+const EmailClient = require("../utils/mailing");
 const crypto = require("crypto");
 const { findById } = require("../models/users");
 const isEmailValid = require("../utils/isEmailValid");
@@ -122,18 +122,35 @@ exports.forgetPassword = async (req, res, next) => {
       "host"
     )}/api/v1/users/resetPassword/${resetToken}`;
 
-    const text = `Forgot your password ? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+    const text = `Forgot your password ? Submit a PATCH request with your new password and passwordConfirm to: <a href="${resetURL}">Click me</a>.\nIf you didn't forget your password, please ignore this email!`;
 
     try {
+      const emailMessage = {
+        sender: "DoNotReply@69e6f80d-9c24-4e0d-9008-752403853c13.azurecomm.net", //to be change after setting up the domain
+        content: {
+          subject: "Password Recuperation<Find it>.",
+          html: `
+          <h1>Welcome to find it </h1>
+          <p>${text}</p>
+          `,
+        },
+        recipients: {
+          to: [
+            {
+              email: user.email,
+            },
+          ],
+        },
+      };
+      const response = await EmailClient.send(emailMessage);
+      // console.log(
+      //   "🚀 ~ file: authController.js:146 ~ exports.forgetPassword= ~ response",
+      //   response
+      // );
+
       res.status(200).json({
         status: "sucess",
-        message: "Token sent to email!",
-      });
-
-      await sendEmail({
-        email: user.email,
-        subject: "Your password reset token (valid for 10 min)",
-        text,
+        message: "Token sent to email! retry if not recieved!",
       });
     } catch (error) {
       user.passwordResetToken = undefined;
@@ -142,16 +159,17 @@ exports.forgetPassword = async (req, res, next) => {
 
       console.log(error);
 
-      res.status(500).json({
-        status: "failed",
-        message: "There was an error sending the email. try again later!",
-      });
+      // res.status(500).json({
+      //   status: "failed",
+      //   message: "There was an error sending the email. try again later!",
+      // });
+      throw new Error("There was an error sending the email. try again later!");
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).json({
       status: "error",
-      message: error,
+      message: error.message,
     });
   }
 };
