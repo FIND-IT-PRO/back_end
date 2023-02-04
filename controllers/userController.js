@@ -2,6 +2,7 @@ const User = require("../models/users");
 const Posts = require("../models/users");
 const Comments = require("../models/users");
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 //? Signup Handling
 exports.updateMyInfo = async (req, res, next) => {
@@ -140,7 +141,7 @@ exports.deleteMyAccount = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    await User.findByIdAndDelete(decoded.id);
+    await User.deleteOne({ _id: mongoose.Types.ObjectId(decoded.id) });
 
     //  removing all posts and images and removing all comments reltaed to all my post
 

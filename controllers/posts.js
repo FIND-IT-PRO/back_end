@@ -27,7 +27,9 @@ class Posts {
 
       // console.log(data);
       if (!isImageExists || !isVideoExists)
-        throw new Error("the provided link are not genrated with our api");
+        throw new Error(
+          "at least on of the provided links are not genrated with our api or it doesn't exists"
+        );
       post.save();
       return post;
     } catch (e) {
@@ -42,7 +44,7 @@ class Posts {
       { images: 1, videos: 1 }
     );
     if (!post) return null;
-    console.log("🚀 ~ file: posts.js:33 ~ Posts ~ removePost ~ post", post);
+    // console.log("🚀 ~ file: posts.js:33 ~ Posts ~ removePost ~ post", post);
     const { images } = post;
     // removing image by image
     //! need to be refactore
@@ -56,7 +58,9 @@ class Posts {
       async (videoUrl) =>
         await StorageController.removeUploadedFile(videoUrl, "vidoes")
     );
-
+    // removes the comments related to his post
+    await this.removePostComments(id, user_id);
+    // remove the post it self
     return this.collection.deleteOne({
       _id: ObjectId(id),
       user_id,

@@ -95,10 +95,10 @@ class Storage {
     return uploadBlobResponse;
   }
   async removeUploadedFile(url, containerName) {
-    // console.log(
-    //   "🚀 ~ file: storage.js:98 ~ Storage ~ removeUploadedFile ~ url",
-    //   url
-    // );
+    console.log(
+      "🚀 ~ file: storage.js:98 ~ Storage ~ removeUploadedFile ~ url",
+      url
+    );
     //it remains 7 days by the way but the link will be unuseable
     this.containerClient =
       this.blobServiceClient.getContainerClient(containerName);
