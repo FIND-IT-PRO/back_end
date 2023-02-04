@@ -54,6 +54,8 @@ class Comments {
     const { user_id: owner_id } = post;
     if (owner_id === ObjectId(user_id).valueOf())
       return await this.collection.deleteOne({ _id: ObjectId(id) }); // the posts belongs to his owner
+    // delete also the comments that point the deleted comments
+    await this.collection.deleteMany({ parent_id: id });
     throw new Error("Unhandled case");
   }
   async editComment(commentUpdateFileds, user_id) {
