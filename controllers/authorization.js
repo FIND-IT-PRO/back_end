@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const commentBodyChecker = require("../helpers/ commentBodyChecker");
 const postBodyChecker = require("../helpers/postBodyChecker");
+const user = require("../models/users");
 require("dotenv").config();
 class Authorization {
   constructor() {}
@@ -15,6 +16,8 @@ class Authorization {
       // ceck if the date is valid
       if (exp >= new Date()) throw new Error(UnauthorizedMessage);
       //so we can check if the same user who triger this api call
+      const userExists = await user.findById(id);
+      if (!userExists) throw new Error("user doesn't exists");
       res.user_id = id;
       next();
     } catch (e) {

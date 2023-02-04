@@ -76,7 +76,7 @@ class Posts {
   async removePostComments(id, user_id) {
     // user_id is the id of the person who comments
     // const postOwner = 1;
-    console.log(id, user_id);
+    // console.log(id, user_id);
     return this.helperCollection.deleteMany({
       post_id: ObjectId(id),
       user_id,
