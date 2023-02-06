@@ -10,6 +10,10 @@ const storagesRouter = require("./routes/storages.js");
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+
 //!establishing connection with mongodb database
 establishConnection();
 //! process.env will have all the variables listed in the .env file
@@ -31,6 +35,25 @@ app.use(apiPrefix + "users/", usersRouter);
 app.use(apiPrefix + "posts/", postsRouter);
 app.use(apiPrefix + "comments/", commentsRouter);
 app.use(apiPrefix + "uploads/", storagesRouter);
+
+//! Attacks Handling
+//? Data sanitization against XSS
+app.use(xss());
+
+//? Limit request from same API
+// is to allow 50 IP request / 1 Hour
+const limiter = rateLimit({
+  max: 50,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many request from this IP, please try again in an hour!",
+});
+app.use("/api", limiter);
+
+//? Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+//? Set Security HTTP Headers
+app.use(helmet());
 
 const port = process.env.PORT || 8080;
 
