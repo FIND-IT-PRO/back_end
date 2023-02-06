@@ -1,4 +1,5 @@
 const express = require("express");
+const { authGard, bodyGard } = require("../controllers/authorization");
 const router = express.Router();
 const postController = require("../controllers/posts"); //UsersController is the class (controller)
 
@@ -33,11 +34,18 @@ router.get("/", async (req, res) => {
     });
   }
 });
+router.use(bodyGard);
+// AuthGard should be added
+router.use(authGard); //check if the user is logedin in and add its id as a user_id to the req object
+// post methode
 router.post("/", async (req, res) => {
   try {
     const { post: Newpost } = req.body;
     if (!Newpost) throw new Error("post is required");
-    const post = await postController.createPost(Newpost);
+    const post = await postController.createPost({
+      user_id: res.user_id, //trust user id
+      ...Newpost,
+    });
     res.status(201).json({ status: "success", data: post });
   } catch (e) {
     res.status(400).json({
@@ -46,12 +54,15 @@ router.post("/", async (req, res) => {
     });
   }
 });
-//todo AuthGard should be added
+// Check the owenership of the resource
+// router.use(ownershipGard);
+// delete a post by id
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const post = await postController.removePost(id);
-    if (!post) throw new Error("post not found");
+    const post = await postController.removePost(id, res.user_id); // the res have the user_id because of the authGard
+    if (!post || !post.deletedCount) throw new Error("post not found");
+
     res.status(200).json({ status: "success", data: post });
   } catch (e) {
     res.status(400).json({
@@ -81,8 +92,9 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id/comments/", async (req, res) => {
   try {
     const { id } = req.params;
-    const comments = await postController.removePostComments(id);
-    if (!comments) throw new Error("comment not found");
+    const comments = await postController.removePostComments(id, res.user_id);
+    if (!comments || !comments.deletedCount)
+      throw new Error("comment not found");
     res.status(200).json({ status: "success", data: comments });
   } catch (e) {
     res.status(400).json({

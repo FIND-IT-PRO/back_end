@@ -232,46 +232,7 @@ exports.resetPassword = async (req, res, next) => {
   }
 };
 
-//? Protecting the routes
-exports.protectRoute = async (req, res, next) => {
-  try {
-    // const token = req.headers.Authorization.slice(" ")[1];
-
-    // if (!token) {
-    //   return res.status(401).json({
-    //     status: "failed",
-    //     message: "Try again later!",
-    //   });
-    // }
-
-    const userToken = req.cookies.jwt;
-
-    if (!userToken) {
-      return res.status(401).json({
-        status: "failed",
-        message: "You are not logged in yet!",
-      });
-    }
-
-    const decoded = jwt.verify(userToken, process.env.JWT_SECRET);
-    const currentUser = await User.findById(decoded.id);
-
-    res.status(200).json({
-      status: "success",
-      message: "You have a permission to access this route",
-      data: {
-        currentUser,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "error",
-      message: error,
-    });
-  }
-};
-
-//? LogOut Handling
+// //? LogOut Handling
 exports.logout = async (req, res, next) => {
   try {
     res.clearCookie("jwt").json({

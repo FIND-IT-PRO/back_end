@@ -95,13 +95,43 @@ class Storage {
     return uploadBlobResponse;
   }
   async removeUploadedFile(url, containerName) {
-    //it remains 7 days by the way but the link will be unuseable
+    try {
+      // console.log(
+      //   "🚀 ~ file: storage.js:98 ~ Storage ~ removeUploadedFile ~ url",
+      //   url
+      // );
+      //it remains 7 days by the way but the link will be unuseable
+      this.containerClient =
+        this.blobServiceClient.getContainerClient(containerName);
+
+      const blockBlobClient = this.containerClient.getBlockBlobClient(
+        blobNameFromUrl(url)
+      );
+      if (!blockBlobClient.exists)
+        return new Promise((resolve, reject) => resolve()); // if the img doesn't exists
+      // console.log(
+      //   "🚀 ~ file: storage.js:117 ~ Storage ~ removeUploadedFile ~ blockBlobClient.exists",
+      //   blockBlobClient.exists
+      // );
+
+      return await blockBlobClient.delete();
+    } catch (e) {
+      // console.log(e);
+    }
+  }
+  async validBlobLink(imagesUrl, containerName) {
+    let isValid = true;
     this.containerClient =
       this.blobServiceClient.getContainerClient(containerName);
-    const blockBlobClient = this.containerClient.getBlockBlobClient(
-      blobNameFromUrl(url)
-    );
-    return await blockBlobClient.delete();
+
+    for (let i = 0; i < imagesUrl.length; i++) {
+      const blockBlobClient = this.containerClient.getBlockBlobClient(
+        blobNameFromUrl(imagesUrl[i])
+      );
+      isValid = await blockBlobClient.exists();
+      if (!isValid) break;
+    }
+    return isValid;
   }
 }
 

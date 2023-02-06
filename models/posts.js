@@ -52,7 +52,11 @@ const PostSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
-    required: true, //tmp
+    required: true,
+  },
+  videos: {
+    type: [String],
+    required: true,
   },
   location: {
     type: pointSchema,
