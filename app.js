@@ -10,6 +10,7 @@ const storagesRouter = require("./routes/storages.js");
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 
+const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
