@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
     });
   }
 });
-router.use(bodyGard);
+
 // AuthGard should be added
 router.use(authGard); //check if the user is logedin in and add its id as a user_id to the req object
 // post methode
@@ -43,8 +43,8 @@ router.post("/", async (req, res) => {
     const { post: Newpost } = req.body;
     if (!Newpost) throw new Error("post is required");
     const post = await postController.createPost({
-      user_id: res.user_id, //trust user id
       ...Newpost,
+      user_id: res.user_id, //trust user id
     });
     res.status(201).json({ status: "success", data: post });
   } catch (e) {
@@ -77,8 +77,9 @@ router.patch("/:id", async (req, res) => {
     const { postUpdateFileds } = req.body;
     if (!postUpdateFileds) throw new Error("postUpdateFileds is required");
     const post = await postController.editPost({
-      _id: id,
       ...postUpdateFileds,
+      user_id: res.user_id,
+      _id: id,
     });
     if (!post) throw new Error("post not found");
     res.status(200).json({ status: "success", data: post });

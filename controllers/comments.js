@@ -18,14 +18,17 @@ class Comments {
       { _id: 1 }
     );
     if (!post) throw new Error("there is not post with this id ");
-    // console.log(
-    //   "🚀 ~ file: comments.js:21 ~ Comments ~ createComment ~ post",
-    //   post
-    // );
-
+    const parent_comment = await this.collection.findOne(
+      {
+        _id: data.parent_id,
+      },
+      { _id: 1 }
+    );
+    if (!parent_comment)
+      throw new Error("thre is not parent post with this id");
     const comment = await this.collection.create({
-      _id: ObjectId(),
       ...data,
+      _id: new ObjectId(),
     });
     comment.save();
     return comment;

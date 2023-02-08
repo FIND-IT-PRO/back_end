@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-const commentBodyChecker = require("../helpers/ commentBodyChecker");
-const postBodyChecker = require("../helpers/postBodyChecker");
 const user = require("../models/users");
 require("dotenv").config();
 class Authorization {
@@ -27,31 +25,21 @@ class Authorization {
       });
     }
   }
-  async bodyGard(req, res, next) {
-    try {
-      const { body } = req;
-      Object.keys(body).map(async (key) => {
-        const el = body[key];
-        switch (key) {
-          case "comment":
-            commentBodyChecker(el);
-            break;
-          case "post":
-            await postBodyChecker(el);
-            break;
-          default:
-            throw new Error("anwanted fileds in the body ");
-        }
-      });
-
-      next();
-    } catch (e) {
-      res.status(401).json({
-        status: "failed",
-        message: e.message,
-      });
-    }
-  }
+  // async bodyGard(req, res, next) {
+  //   try {
+  //     const { body } = req;
+  //     Object.keys(body).map(async (key) => {
+  //       const el = body[key];
+  //       // do something on the body
+  //     });
+  //     next();
+  //   } catch (e) {
+  //     res.status(401).json({
+  //       status: "failed",
+  //       message: e.message,
+  //     });
+  //   }
+  // }
   //   async ownershipGard(req, res, next) {
   //     // if this message get send that means is someone is trying to do actions on others resources like deleting an account
   //     const spamDetectionMessage =

@@ -67,6 +67,10 @@ class Posts {
     });
   }
   async editPost(postUpdateFileds) {
+    console.log(
+      "🚀 ~ file: posts.js:70 ~ Posts ~ editPost ~ postUpdateFileds",
+      postUpdateFileds
+    );
     return this.collection.findOneAndUpdate(
       { _id: ObjectId(postUpdateFileds._id) },
       { $set: postUpdateFileds, "date.lastUpdateDate": new Date() },
