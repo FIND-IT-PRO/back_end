@@ -6,42 +6,45 @@ const crypto = require("crypto");
 const { findById } = require("../models/users");
 const isEmailValid = require("../utils/isEmailValid");
 
+//* Genrating Token 
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+}
+
+//* Creating and Sending the token to the User
+const sendingToken = (user, status, res) => {
+  const token = generateToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: true
+  };
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // Remove password
+  user.password = undefined;
+
+  res.status(status).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
 //? SignUP Handling
 exports.signup = async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
 
-    // res.status(201).json({
-    //   status: "sucess",
-    //   message: "Your account is created successfuly !",
-    // });
+    sendingToken(newUser, 201, res);
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    // Remove password
-    newUser.password = undefined;
-
-    res.status(201).json({
-      status: "success",
-      token,
-      data: {
-        newUser,
-      },
-    });
-
-    // createSendToken(newUser, 201, res);
   } catch (error) {
     res.status(400).json({
       status: "error",
