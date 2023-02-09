@@ -9,12 +9,23 @@ class Reactions {
     this.posts = posts; //reactions is a collection(model)
     this.comments = comments; //reactions is a collection(model)
   }
-  async createReaction(reaction) {
-    const { item_id } = reaction;
-    const { item_type } = reaction;
-    const { reaction_type } = reaction;
+  async createReaction({ item_id, item_type, reaction_type, user_id }) {
     if (!["posts", "comments"].includes(item_type))
       throw new Error("item type is not supported");
+    //
+
+    // check if the user is already react to the item (Post or Comment)
+    const isAlreadyReacted = await this.collection.findOne(
+      {
+        user_id,
+        item_id,
+      },
+      { _id: 1 }
+    );
+    // console.log(isAlreadyReacted);
+    if (isAlreadyReacted)
+      throw new Error("you are already reacted to this item");
+
     // increment the reactions in the item
     const item = await this[item_type].updateOne(
       { _id: ObjectId(item_id), "reactions.reaction_type": reaction_type },
@@ -24,10 +35,17 @@ class Reactions {
         },
       }
     );
+
     // check if it exists
     if (!item.matchedCount) throw new Error("No item found with this id");
     const newReaction = await (
-      await this.collection.create({ _id: ObjectId(), ...reaction })
+      await this.collection.create({
+        _id: ObjectId(),
+        item_id,
+        item_type,
+        reaction_type,
+        user_id,
+      })
     ).save();
 
     return newReaction;
