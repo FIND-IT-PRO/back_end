@@ -6,12 +6,12 @@ const crypto = require("crypto");
 const { findById } = require("../models/users");
 const isEmailValid = require("../utils/isEmailValid");
 
-//* Genrating Token 
+//* Genrating Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-}
+};
 
 //* Creating and Sending the token to the User
 const sendingToken = (user, status, res) => {
@@ -21,10 +21,10 @@ const sendingToken = (user, status, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: true
+    secure: true,
   };
 
-  res.cookie('jwt', token, cookieOptions);
+  res.cookie("jwt", token, cookieOptions);
 
   // Remove password
   user.password = undefined;
@@ -42,9 +42,7 @@ const sendingToken = (user, status, res) => {
 exports.signup = async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
-
     sendingToken(newUser, 201, res);
-
   } catch (error) {
     res.status(400).json({
       status: "error",
@@ -71,30 +69,7 @@ exports.login = async (req, res, next) => {
     if (!user || !correctPassword)
       throw new Error("Incorrect email or password!");
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: false,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    // Remove password
-    user.password = undefined;
-
-    res.status(200).json({
-      status: "success",
-      token,
-      data: {
-        user,
-      },
-    });
+    sendingToken(user, 200, res);
   } catch (error) {
     // console.log(error);
     res.status(401).json({
@@ -206,27 +181,7 @@ exports.resetPassword = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    res.status(200).json({
-      status: "success",
-      token: token,
-      data: {
-        user,
-      },
-    });
+    sendingToken(user, 200, res);
   } catch (error) {
     res.status(400).json({
       status: "error",
