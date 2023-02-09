@@ -34,7 +34,7 @@ class Comments {
     return comment;
   }
   // todo AuthGard
-  async removeComment(id, user_id) {
+  async removeComment({ id, user_id }) {
     //  bringing the comment
     const comment = await this.collection.findOne(
       { _id: ObjectId(id) },
@@ -65,7 +65,7 @@ class Comments {
     return this.collection.findOneAndUpdate(
       { _id: ObjectId(commentUpdateFileds._id), user_id },
       { $set: commentUpdateFileds, "date.lastUpdateDate": new Date() },
-      { new: true }
+      { new: true, runValidators: true }
     );
   }
 }

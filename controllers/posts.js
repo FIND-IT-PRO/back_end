@@ -74,7 +74,7 @@ class Posts {
     return this.collection.findOneAndUpdate(
       { _id: ObjectId(postUpdateFileds._id) },
       { $set: postUpdateFileds, "date.lastUpdateDate": new Date() },
-      { new: true }
+      { new: true, runValidators: true }
     );
   }
   async removePostComments(id, user_id) {

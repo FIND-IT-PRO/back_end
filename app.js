@@ -7,6 +7,7 @@ const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
 const commentsRouter = require("./routes/comments.js");
 const storagesRouter = require("./routes/storages.js");
+const reactionRouter = require("./routes/reactions.js");
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 
@@ -36,6 +37,7 @@ app.use(apiPrefix + "users/", usersRouter);
 app.use(apiPrefix + "posts/", postsRouter);
 app.use(apiPrefix + "comments/", commentsRouter);
 app.use(apiPrefix + "uploads/", storagesRouter);
+app.use(apiPrefix + "reactions/", reactionRouter);
 
 //! Attacks Handling
 //? Data sanitization against XSS
