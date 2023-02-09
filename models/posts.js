@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const isCoordantesValid = require("../helpers/isCoordantesValid");
 const dateSchema = require("./dateSchema");
-
+const { itemReaction } = require("./itemReaction");
+// console.log("🚀 ~ file: posts.js:5 ~ itemReaction", itemReaction);
+const { defaultReactions } = require("./itemReaction");
+// console.log("🚀 ~ file: posts.js:6 ~ defaultReactions", defaultReactions);
 const pointSchema = new mongoose.Schema(
   {
     type: {
@@ -61,5 +64,6 @@ const PostSchema = new mongoose.Schema({
   location: {
     type: pointSchema,
   },
+  reactions: { type: [itemReaction], default: defaultReactions, _id: false },
 });
 module.exports = mongoose.model("posts", PostSchema);
