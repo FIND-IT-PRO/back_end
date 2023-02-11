@@ -1,728 +1,156 @@
-<!-- test this  api call to check that all is working -->
-
-http://localhost:8080/api/v1/users/63cdaca604ff20d37d57b12d
-
-# CRUD ON POSTS
-
-PUT http://localhost:8080/api/v1/posts
-
-## create a post ( insert ) (todo :image upload)
-
-```
-{
-	"post":
-	{
-"user_id": "5f3d3c3e2f2d3c5b3c5b3c5d",
-"title": "Feeling grateful for the opportunity to hike",
-"body": "The fresh air, the stunning views, and the sense of accomplishment made for an unforgettable experience. I highly recommend it to anyone looking to reconnect with nature and push themselves physically.",
-"status": "active",
-"images":["img1.uri.jpg","img2.url.jpg"],
-"location": {
-"type": "Point",
-"coordinates": [44.26, -110.8]
-}
-}
-
-
-}
-```
-
-## repost (todo)
-
-## get a post by id
-
-GET http://localhost:8080/api/v1/posts/63cec79dd41aea7cb7cedc10
-
-## get all posts(random )
-
-GET http://localhost:8080/api/v1/posts
-
-## edit a post ( update )
-
-PATCH http://localhost:8080/api/v1/posts/63cec825310f7c9d516aaef2
-
-```
-{
-    "post":
-    {
-        "title":"my new title"
-    }
-}
-
-```
-
-## remove a post ( delete )
-
-POST http://localhost:8080/api/v1/posts/63cec79dd41aea7cb7cedc10
-
-# CRUD ON COMMENTS
-
-## GET COMMENTS BY POST ID
-
-GET localhost:8080/api/v1/comments/63cec825310f7c9d516aaef2
-
-## POST A COMMENT (CREATE A COMMENT)
-
-POST http://localhost:8080/api/v1/comments
-
-```
-{
-  "comment":
-  {
-"_id": "63cec825310f7c9d516aaef3",
-"user_id": "5f3d3c3e2f2d3c5b3c5b3c5f",
-"post_id": "63cec825310f7c9d516aaef2",
-"content": "This post is great, I can relate to it so much!",
-"parent_id": null
-}
-}
-```
-
-## REPLY TO A COMMENT( CREATE A COMMENT POINTING ON THE PARENT COMMENT)
-
-```
-{
-  "comment":
-  {
-"_id": "63cec825310f7c9d516aae22",
-"user_id": "5f3d3c3e2f2d3c5b3c5b3c5f",
-"post_id": "63cec825310f7c9d516aaef2",
-"content": "This post is great, I can relate to it so much!",
-"parent_id": "63cec825310f7c9d516aaef5"
-}
-}
-```
-
-## PATCH A COMMENT (UPDATE A COMMENT)
-
-PATCH localhost:8080/api/v1/comments/63cec825310f7c9d516aaef3
-
-```
-{
-    "comment":
-    {
-        "content":"my new content"
-    }
-}
-
-```
-
-## DELETE A COMMENT BY POST (ID) (DELETE COMMENTS) (ALL COMMENTS RELATED TO A POST)
-
-DELETE localhost:8080/api/v1/posts/63cec825310f7c9d516aaef2/comments
-
-## DELETE A COMMENT BY ID (COMMENT OWNER) (DELETE A COMMENT) (ONE COMMENT)
-
-DELETE localhost:8080/api/v1/comments/63cec825310f7c9d516aaef4 TODO : add auth
-
-## DELETE A COMMENT BY ID (POST OWNER) (DELETE A COMMENT) (INFO:AUTH NEED TO BE ADDED)
-
-# CRUD ON REACTS
-
-```
-
-```
-
-# CRUD ON USERES
-# Authentication - Documentation
-
-# The dependencies installed
-
-- **validator.js**
-    
-    <aside>
-    📌 **⇒ Link to install it**
-    
-    [validator](https://www.npmjs.com/package/validator)
-    
-    ```bash
-    npm i validator
-    ```
-    
-    </aside>
-    
-- **jsonwebtoken**
-    
-    <aside>
-    📌 **⇒ The link to install it :**
-    
-    [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-    
-    ```bash
-    npm i jsonwebtoken
-    ```
-    
-    </aside>
-    
-
-- ****bcrypt.js****
-    
-    <aside>
-    📌 **⇒ The link to install it :**
-    
-    [bcryptjs](https://www.npmjs.com/package/bcryptjs)
-    
-    ```bash
-    npm i bcryptjs
-    ```
-    
-    </aside>
-    
-
-- ****nodemailer****
-    
-    <aside>
-    📌 **⇒ The link to install it :**
-    
-    [nodemailer](https://www.npmjs.com/package/nodemailer)
-    
-    ```bash
-    npm i nodemailer
-    ```
-    
-    - To interact the user with email we used the :
-    
-    [](http://smtp.mailtrap.io/)
-    
-    </aside>
-    
-
-- **crypto**
-    
-    <aside>
-    📌 ⇒ The `crypto`module provides cryptographic functionality that includes a set of wrappers for OpenSSL's hash, HMAC, cipher, decipher, sign, and verify functions.
-    
-    ```bash
-    const crypto = require("crypto");
-    ```
-    
-    </aside>
-    
-
-# The extension used
-
-- ****Thunder Client****
-    
-    <aside>
-    📌 Thunder Client is a lightweight Rest API Client Extension for Visual Studio Code, hand-crafted by [Ranga Vadhineni](https://twitter.com/ranga_vadhineni) with simple and clean design.
-    
-    [Thunder Client - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
-    
-    </aside>
-    
-
-- ****Prettier - Code formatter****
-    
-    <aside>
-    📌 [**Prettier**](https://prettier.io/) is an opinionated code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
-    
-    [Prettier - Code formatter - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-    
-    </aside>
-    
-
-- ****Better Comments****
-    
-    <aside>
-    📌 The Better Comments extension will help you create more human-friendly comments in your code With this extension, you will be able to categorise your annotations into:
-    
-    - Alerts
-    - Queries
-    - TODOs
-    - Highlights
-    - Commented out code can also be styled to make it clear the code shouldn't be there
-    - Any other comment styles you'd like can be specified in the settings
-    
-    [Better Comments - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments)
-    
-    </aside>
-    
-- ****Error Lens****
-    
-    <aside>
-    📌 ErrorLens turbo-charges language diagnostic features by making diagnostics stand out more prominently, highlighting the entire line wherever a diagnostic is generated by the language and also prints the message inline.
-    
-    [Error Lens - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
-    
-    </aside>
-    
-
-- ****IntelliCode****
-    
-    <aside>
-    📌 The [Visual Studio IntelliCode](https://go.microsoft.com/fwlink/?linkid=872679) extension provides AI-assisted development features for Python, TypeScript/JavaScript and Java developers in Visual Studio Code, with insights based on understanding your code context combined with machine learning.
-    
-    [IntelliCode - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode)
-    
-    </aside>
-    
-
-# Documentation
-
-During the project development or specifically the task of “Authentication”, i was focusing on handling and building each of these routes `**/signup**`, `**/login**`, **`/forgetPassword`**, **`/resetPassword`** and **`/logout`** based on their principal route **`http://localhost:8080/api/v1/users`**
-
-![Untitled](Authentication%20-%20Documentation%20f6b6006ba9094f7a8ee3b9e1d9e77652/Untitled.png)
-
-## The “User” Module
-
-This source code of User module is creating a Mongoose schema for a collection of users. The schema defines the structure of the documents in the collection and the rules for validating the data.
-
-<aside>
-✅ The schema includes the following fields:
-
-- **`name`**: a required string field that stores the user's name
-- **`email`**: a required, unique, lowercase string field that stores the user's email address. It also includes a validation function that ensures the email is in a valid format.
-- **`role`**: a string field that specifies the user's role (either "user" or "admin"). The default value is "user".
-- **`username`**: a string field that stores the user's username
-- **`password`**: a required string field that stores the user's password. The minimum length is 8 characters, and it is also set to select false which is important to not return the password when querying the database
-- **`passwordConfirm`**: a required string field that stores the user's password confirmation. It also includes a validation function that ensures the password confirmation matches the password field.
-</aside>
-
-For the “`**usersSchema**`” methods that i have implemented
-
-<aside>
-✅ The source code is defining various middleware and methods for a Mongoose model based on the **`usersSchema`**defined earlier.
-
-- **`usersSchema.pre("save", async function (next)`**: This middleware is executed before saving a document to the database. It uses the bcrypt library to hash the password and then it sets the passwordConfirm field to undefined.
-- **`usersSchema.pre("save", async function (next)`** : This middleware is executed before saving a document to the database. It sets the passwordChangedAt field to the current time minus 1000ms.
-- **`usersSchema.pre(/^find/, function (next)`**: This middleware is executed before any **`find`** query is executed. It adds a filter to the query to only return documents where the **`active`** field is not false.
-- **`usersSchema.methods.correctPassword = async function (candidatePass, userPass)`**: This method compares the hashed version of the user's password with the entered password
-- **`usersSchema.methods.createPasswordResetToken = function ()`**: This method creates a password reset token using the crypto library, and then sets the **`passwordResetToken`** and **`passwordResetExpires`** fields on the user document. It returns the reset token.
-</aside>
-
-## The signup handler
-
-```jsx
-exports.signup = async (req, res, next) => {
-  try {
-    const newUser = await User.create(req.body);
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    // Remove password
-    newUser.password = undefined;
-
-    res.status(201).json({
-      status: "success",
-      token,
-      data: {
-        newUser,
-      },
-    });
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-```
-
-<aside>
-📌 This source code exports a function that handles user signup. When this function is called, it performs the following actions:
-
-- It calls the **`create`** method of the **`User`** model, passing in the request body as the data to create the new user document.
-- It generates a JSON Web Token (JWT) using the **`jwt`** library. The token is signed with a secret specified in the **`JWT_SECRET`** environment variable and it expires after the time specified in the **`JWT_EXPIRES_IN`** environment variable.
-- It sets the JWT as a cookie on the user's browser, with options including the expiration time, httpOnly and secure.
-- It removes the password from the new user object before sending it back to the client in the response.
-- It sends a JSON response to the client with a status of "success", the token, and the new user object.
-
-If there is an error, the error is caught and logged to the console.
-
-</aside>
-
-This middleware function should be used in the route handler for the **signup** endpoint in our application.
-
-<aside>
-📌 The route of signup in this case is :
-
-`http://localhost:8080/api/v1/users/signup`
-
-```jsx
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
-
-router.route("/signup").post(authController.signup);
-```
-
-</aside>
-
-## The login handler
-
-```jsx
-exports.login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({
-        status: "failed",
-        message: "Insert the email and password!",
-      });
-    }
-
-    const user = await User.findOne({ email }).select("+password");
-    const correctPassword = await user.correctPassword(password, user.password);
-
-    if (!user || !correctPassword) {
-      return res.status(401).json({
-        status: "failed",
-        message: "Incorrect email or password!",
-      });
-    }
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: false,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    // Remove password
-    user.password = undefined;
-
-    res.status(200).json({
-      status: "success",
-      token,
-      data: {
-        user,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "error",
-      message: error,
-    });
-  }
-};
-```
-
-<aside>
-📌 This source code exports a function that handles user login. When this function is called, it performs the following actions:
-
-- It destructures the **`email`** and **`password`** properties from the request body.
-- It checks if both the email and password are provided. If one or both of them are missing, it sends a response to the client with a status code of 400 and a message saying "Insert the email and password!".
-- It finds the user document in the database with the provided email and select the password field.
-- It calls the **`correctPassword`** method on the user object which compares the plain text password with the hashed password and returns true if they match.
-- If the user is not found or the provided password does not match the hashed password, it sends a response to the client with a status code of 401 and a message saying "Incorrect email or password!".
-- It generates a JSON Web Token (JWT) using the **`jwt`** library. The token is signed with a secret specified in the **`JWT_SECRET`** environment variable and it expires after the time specified in the **`JWT_EXPIRES_IN`** environment variable.
-- It sets the JWT as a cookie on the user's browser, with options including the expiration time, httpOnly and secure.
-- It removes the password from the user object before sending it back to the client in the response.
-- It sends a JSON response to the client with a status of "success", the token, and the user object.
-
-If there is an error, the error is caught and the function sends a response to the client with a status code of 400 and the error message.
-
-</aside>
-
-This middleware function should be used in the route handler for the **login** endpoint in our application.
-
-<aside>
-📌 The route of login in this case is :
-
-`http://localhost:8080/api/v1/users/login`
-
-```jsx
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
-
-router.route("/login").post(authController.login);
-```
-
-</aside>
-
-## The forgetPassword handler
-
-```jsx
-exports.forgetPassword = async (req, res, next) => {
-  try {
-    // 1) Get user based on POSTed email
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      res.status(404).json({
-        status: "failed",
-        message: "There is no user with this email address!",
-      });
-    }
-
-    // 2) Generate the random reset token
-    const resetToken = user.createPasswordResetToken();
-    await user.save({ validateBeforeSave: false });
-
-    // 3) Send it to user's email
-    const resetURL = `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
-
-    const text = `Forgot your password ? Submit a new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
-
-    try {
-      await sendEmail({
-        email: user.email,
-        subject: "Your password reset token (valid for 10 min)",
-        text,
-      });
-
-      res.status(200).json({
-        status: "sucess",
-        message: "Token sent to email!",
-      });
-    } catch (error) {
-      user.passwordResetToken = undefined;
-      user.passwordResetExpires = undefined;
-      await user.save({ validateBeforeSave: false });
-
-      console.log(error);
-
-      res.status(500).json({
-        status: 'failed',
-        message: 'There was an error sending the email. try again later!'
-      })
-    }
-  } catch (error) {
-    res.status(400).json({
-      status: "error",
-      message: error,
-    });
-  }
-};
-```
-
-<aside>
-📌 This source code exports a function called "forgetPassword" which is used to handle requests related to forgot password functionality. The function is an asynchronous function that takes in three parameters, req, res and next.
-
-1. First, the function attempts to find a user based on the `**email`** address submitted in the request body. If the user is not found, it sends a response with a `**404**` status code and a message indicating that there is no user with this email address.
-2. If the user is found, the function generates a random password reset token and assigns it to the user's `**passwordResetToken`** field. The user is then saved to the database, with the **`validateBeforeSave`** option set to false.
-3. Next, the function sends a password reset token to the user's `**email`** address. It creates a URL that includes the reset token and sends it in an email. The email also includes instructions on how to submit a PATCH request with the new password and **`passwordConfirm`**.
-4. If there is an error sending the email, the function sets the user's **`passwordResetToken`** and **`passwordResetExpires`** fields to undefined and saves the user to the database. It also logs the error  sending the email and to try again later.
-5. If there is any other error, it sends an error response with a **`400`** status code and the error message.
-</aside>
-
-This middleware function should be used in the route handler for the **forgetPassword** endpoint in our application.
-
-<aside>
-📌 The route of forgetPassword in this case is :
-
-`http://localhost:8080/api/v1/users/forgetPassword`
-
-```jsx
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
-
-router.route("/resetPassword").post(authController.forgetPassword);
-```
-
-</aside>
-
-## The resetPassword handler
-
-```jsx
-exports.resetPassword = async (req, res, next) => {
-  try {
-    // 1) Get user based on the token
-    const hashedToken = crypto
-      .createHash("sha256")
-      .update(req.params.token) // !!
-      .digest("hex");
-
-    const user = await User.findOne({
-      passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() },
-    });
-
-    // 2) If token has not expired, and there is user, set the new password
-    if (!user) {
-      return res.status(400).json({
-        status: "failed",
-        message: "Token is invalid or has expired!",
-      });
-    }
-
-    user.password = req.body.password;
-    user.passwordConfirm = req.body.passwordConfirm;
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
-
-    await user.save({ validateBeforeSave: false });
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    res.status(200).json({
-      status: "success",
-      token: token,
-      data: {
-        user,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "error",
-      message: error,
-    });
-  }
-};
-```
-
-<aside>
-📌 This source code exports a function called "**`resetPassword`**" that can be called as an endpoint for a route in an Express.js application. When the function is called, it performs the following steps:
-
-1. It first uses the **`crypto`** library to create a **`SHA-256`** hash of the token passed in as a parameter in the request.
-2. It then finds a user in the database that has a matching password reset token and whose password reset token has not expired (i.e. the password reset expires field is greater than the current date).
-3. If the user is not found, the function returns a response with a status code of 400 and a message indicating that the token is invalid or has expired.
-4. If the user is found, the function sets the user's password and password confirmation to the values passed in the request's body. It also sets the user's password reset token and password reset expires fields to undefined.
-5. The function then saves the user to the database with the validateBeforeSave option set to false.
-6. After that, it creates a **`JWT`** token using the user's id and the **`JWT_SECRET`** environment variable and sets an expiresIn option using the **`JWT_EXPIRES_IN`** environment variable.
-7. The function then sets a cookie "jwt" on the client's browser with the newly created token, the expires option set to the current date plus the **`JWT_COOKIE_EXPIRES_IN`** environment variable, httpOnly option set to true, and the secure option set to true.
-8. Finally, the function sends a response with a status code of **`200`** and a JSON object containing the status, token and data fields.
-
-If an error occurs during any of these steps, the function sends a response with a status code of **`400`** and a message indicating the error.
-
-</aside>
-
-This middleware function should be used in the route handler for the **resetPassword** endpoint in our application.
-
-<aside>
-📌 The route of forgetPassword in this case is :
-
-`http://localhost:8080/api/v1/users/resetPassword`
-
-```jsx
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
-
-router.route("/resetPassword").post(authController.forgetPassword);
-```
-
-</aside>
-
-## The logout handler
-
-```jsx
-exports.logout = async (req, res, next) => {
-  try {
-    res.clearCookie("jwt").send("You're logout successfuly!");
-    // res.send("You're logout successfuly!");
-  } catch (error) {
-    res.status(400).json({
-      status: "error",
-      message: error,
-    });
-  }
-};
-```
-
-<aside>
-📌 This source code exports a logout function that is used to handle logout requests. When this function is called, it attempts to clear the "**jwt**" cookie from the user's browser and sends a message indicating that the logout was successful. If an error occurs while attempting to clear the cookie, the function sends a response with a status of 400 and a JSON object containing an "error" status and the error message.
-
-</aside>
-
-This middleware function should be used in the route handler for the **logout** endpoint in our application.
-
-<aside>
-📌 The route of logout in this case is :
-
-`http://localhost:8080/api/v1/users/logout`
-
-```jsx
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
-
-router.route("/logout").get(authController.logout);
-```
-
-</aside>
-
-## The route protecting handler
-
-```jsx
-exports.protectRoute = async (req, res, next) => {
-  try {
-    const userToken = req.cookies.jwt;
-
-    if (!userToken) {
-      return res.status(401).json({
-        status: "failed",
-        message: "You are not logged in yet!",
-      });
-    }
-
-    const decoded = jwt.verify(userToken, process.env.JWT_SECRET);
-    const currentUser = await User.findById(decoded.id);
-
-    res.status(200).json({
-      status: "success",
-      message: "You have a permission to access this route",
-      data: {
-        currentUser,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "error",
-      message: error,
-    });
-  }
-};
-```
-
-<aside>
-📌 This code exports a function called "**`protectRoute`**" that is intended to be used as middleware to protect routes that should only be accessible to logged-in users.
-
-The function first checks if a **JSON Web Token (JWT)** exists in the cookies of the request, which is used to authenticate the user. If no token is found, the function sends a **`401`** status code (unauthorized) and a message indicating that the user is not logged in.
-
-If a token is found, it is then verified using the **`JWT_SECRET`** environment variable and the id of the user is extracted from the payload. The function uses this id to find the user in the database and assigns it to a variable called **`currentUser`**.
-
-Finally, the function sends a **`200`** status code (OK) and a message indicating that the user has permission to access the route, along with the **`currentUser`** data as a response.
-
-In case of any errors it will send a **`400`** status code (**bad request**) and error message.
-
-</aside>
-
-This middleware function should be used in the route handler for the **posts** endpoint in our application.
-
-<aside>
-📌 The route of logout in this case is :
-
-`http://localhost:8080/api/v1/users/posts`
-
-```jsx
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
-
-router.route("/posts").get(authController.protectRoute);
-```
-
-</aside>
+# Find it philosophy :
+
+In this app you can find your missing stuffs or post that you’ve find somethings,
+
+# Features :(phase 1)
+
+## Posts (REST API)
+
+[1]:Create a post (uploading images , adding description to your post(text )
+See random posts in home page
+React to a post (like,dislike,…)
+Comment to a post
+Simple comment on the parent post  
+Reply to a comment byTag a user by name (with autocompletion) and 1 level nested comments
+Remove Tag from others
+Re-post
+Remove a post
+Editing a post
+Realtime Notification (socket.io)
+Receive notification
+On getting tagged by someone
+On getting a comment reply
+On Getting a reaction to a post
+Real Time Messaging (socket.io)
+Request chat invitation
+Chat with text
+Exchanging static assets (images,videos…)
+Advanced search between posts(Mongodb Atlas search) + REST API )
+by a filter [geolocation coordinates , text , time range,image(AI)]
+Create a map that shows the location of lost and found items, allowing users to see at a zone where items have been found and where they are currently located
+Authentication (nodejs custom Authentication ) (REST API) )
+Login
+Sign up
+Forget password
+Change password
+Profile Management (REST API )(FILE UPLOAD WITH express-fileuploader)
+Change profile image
+Change profile related information (username,address …)
+Admin Dashboard
+Monitoring the state of the servers (mailing server ,node server state ,mongodb state)
+Remove a user
+Remove a comment
+Spam detection (Ai):
+Malicious users, fake account boots …
+Reward system:
+Offer a reward for the return of a lost item, either in the form of cash or through the app's own rewards program. This could incentivize users to help each other find their missing items.
+Integration with social media:
+Allow users to share their lost and found listings on social media platforms to reach a wider audience and increase the chances of their item being found.
+Multi-language support:
+Offer support for multiple languages to make the app accessible to a global audience
+Customer support:
+Provide a way for users to contact customer support if they have any questions or need help using the app.
+
+More Features :
+Premuire search with ads and a paid tier
+Adding questions to you be respond from people who pretend that they found the item
+We can implement Ai matching between lost object and founded ones (long term goal)
+……………………………………………………………………………………………………….
+
+Data model :
+
+Collection: Users
+
+Fields:
+user_id (string, unique)
+name (string)
+email (string, unique,valid)
+password (string, hashed)
+location (geopoint)
+reward_points (integer)
+profile_image (string, file ID)
+username (string, unique)
+address (string)
+sign_up_date (date)
+last_login (date)
+status (string, "active" or "inactive")
+
+Collection: Posts
+
+Fields:
+post_id (string, unique)
+user_id (string)
+title (string)
+Body (string)
+images (array of strings, file IDs)
+location (geopoint)
+time_range (date range)
+reactions (array of objects, each with a "user_id" field and a "reaction" field)
+re_posts (array of strings, each representing a "post_id")
+tags (array of strings, representing user IDs)
+creation_date (date)
+last_edit_date (date)
+status (string, "active" or "deleted")
+
+Collection: Chat Invitations
+
+Fields:
+invitation_id (string, unique)
+sender_id (string)
+recipient_id (string)
+status (string, "pending", "accepted", or "declined")
+
+Collection: Chats
+
+Fields:
+chat_id (string, unique)
+user_ids (array of strings)
+messages (array of objects, each with a "sender_id" field, a "text" field, and a "timestamp" field)
+static_assets (array of strings, each representing a file ID)
+creation_date (date)
+last_activity (date)
+status (string, "active" or "archived")
+Collection: Alerts
+
+Fields:
+alert_id (string, unique)
+user_id (string)
+type (string, "tag", "comment_reply", "post_reaction")
+item_id (string, optional)
+status (string, "unread" or "read")
+Collection: Admin Dashboard
+
+Fields:
+server_status (object, with fields for each server and a status field for each)
+spam_detection (object, with fields for each type of spam and a count field for each)
+malicious_users (array of strings, each representing a "user_id")\_id: a unique identifier
+
+Collection: Comment
+post_id: the ID of the post the comment belongs to
+user_id: the ID of the user who made the comment
+text: the text of the comment
+parent_comment_id: the ID of the parent comment, if this is a reply (null if this is not a reply)
+created_at: a timestamp for when the comment was made
+
+# DOCUMENTATION:
+
+READ OUR DOCS IN DOCS/ FOLDER
+
+## HOW TO USE THIS PROJECT
+
+## Notes:
+
+- This project is still in development phase
+- This project is not ready for production
+- Replace the .env.example file with .env file and fill the variables
+
+## Contributing
+
+We are open to, and grateful for, any contributions made by the community. By contributing to this project, you agree to abide by the thoughtbot [code of conduct].
+
+[1]:
+use this backend for learning purpose only
+[2]:
+create a branch for each feature you want to add
+[3]:
+contact us for more information
