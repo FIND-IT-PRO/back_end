@@ -7,7 +7,6 @@ const authController = require("../controllers/authController");
 // router.route("/:id").get(userController);
 
 // Authentication routes
-router.route("/signup").post(authController.checkEmailAndPasswordExistence);
 router.route("/signup").post(authController.signup);
 router.route("/login").post(authController.login);
 router.route("/forgetPassword").post(authController.forgetPassword);

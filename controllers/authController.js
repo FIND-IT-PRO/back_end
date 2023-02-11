@@ -1,14 +1,20 @@
 const User = require("../models/users");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const EmailClient = require("../utils/mailing");
+const EmailClient = require("../helpers/mailing");
 const crypto = require("crypto");
 const { findById } = require("../models/users");
-const isEmailValid = require("../utils/isEmailValid");
 
 //? SignUP Handling
 exports.signup = async (req, res, next) => {
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).send({
+        message: "Email or password missing.",
+      });
+    }
     const newUser = await User.create(req.body);
 
     // res.status(201).json({
@@ -256,13 +262,6 @@ exports.checkEmailAndPasswordExistence = async function (req, res, next) {
       message: "Email or password missing.",
     });
   }
-  //? this is the middleware that checks if the email is valid(syntax and domain and smtp pinging the designated email server) ))
-  const { valid, reason, validators } = await isEmailValid(email);
 
-  if (!valid)
-    return res.status(400).send({
-      message: "Please provide a valid email address.",
-      reason: validators[reason].reason,
-    });
   next();
 };
