@@ -31,14 +31,6 @@ app.use(json());
 //! coockie parser
 app.use(coockieParser());
 
-//?routers
-const apiPrefix = "/api/v1/";
-app.use(apiPrefix + "users/", usersRouter);
-app.use(apiPrefix + "posts/", postsRouter);
-app.use(apiPrefix + "comments/", commentsRouter);
-app.use(apiPrefix + "uploads/", storagesRouter);
-app.use(apiPrefix + "reactions/", reactionRouter);
-
 //! Attacks Handling
 //? Data sanitization against XSS
 app.use(xss());
@@ -57,6 +49,14 @@ app.use(mongoSanitize());
 
 //? Set Security HTTP Headers
 app.use(helmet());
+
+//?routers
+const apiPrefix = "/api/v1/";
+app.use(apiPrefix + "users/", usersRouter);
+app.use(apiPrefix + "posts/", postsRouter);
+app.use(apiPrefix + "comments/", commentsRouter);
+app.use(apiPrefix + "uploads/", storagesRouter);
+app.use(apiPrefix + "reactions/", reactionRouter);
 
 const port = process.env.PORT || 8080;
 
