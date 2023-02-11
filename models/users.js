@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const findOrCreate = require("mongoose-findorcreate");
 
 const usersSchema = new mongoose.Schema({
   name: {
@@ -26,13 +27,13 @@ const usersSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "User must have a password"],
+    // required: [true, "User must have a password"],
     minlength: 8,
     select: false, // this step is important
   },
   passwordConfirm: {
     type: String,
-    required: [true, "Please confirm your password!"],
+    // required: [true, "Please confirm your password!"],
     validate: {
       // The only works on SAVE
       validator: function (el) {
@@ -69,7 +70,11 @@ const usersSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  googleId: String,
 });
+
+// *
+
 
 usersSchema.pre("save", async function (next) {
   // Only run this function if password was actually  modified
@@ -112,6 +117,8 @@ usersSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
+
+usersSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model("users", usersSchema);
 

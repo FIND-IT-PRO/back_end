@@ -5,6 +5,7 @@ const EmailClient = require("../utils/mailing");
 const crypto = require("crypto");
 const { findById } = require("../models/users");
 const isEmailValid = require("../utils/isEmailValid");
+const passport = require("passport");
 
 //* Genrating Token
 const generateToken = (id) => {
@@ -207,9 +208,9 @@ exports.logout = async (req, res, next) => {
 };
 
 exports.checkEmailAndPasswordExistence = async function (req, res, next) {
-  const { email, password } = req.body;
+  const { email, password, passwordConfirm } = req.body;
 
-  if (!email || !password) {
+  if (!email || !password || !passwordConfirm) {
     return res.status(400).send({
       message: "Email or password missing.",
     });
@@ -224,3 +225,14 @@ exports.checkEmailAndPasswordExistence = async function (req, res, next) {
     });
   next();
 };
+
+exports.googleauth = async (req, res, next) => {
+  
+
+  next();
+};
+
+//?
+// exports.preventLoggedUserWithprovider= async function (req,res,next){
+
+// }

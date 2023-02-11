@@ -9,12 +9,23 @@ const commentsRouter = require("./routes/comments.js");
 const storagesRouter = require("./routes/storages.js");
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
+const User = require("./models/users");
+const mongoose = require("mongoose");
 
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
+//OAuth API for google
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
+const session = require("express-session");
+const sdk = require("api")("@ngpvan/v1.0#a28silbfd0kbi");
+const flash = require("express-flash");
+require("./utils/passport");
+require("./utils/googleAPI");
 
 //!establishing connection with mongodb database
 establishConnection();
@@ -56,6 +67,66 @@ app.use(mongoSanitize());
 
 //? Set Security HTTP Headers
 app.use(helmet());
+
+app.use(passport.initialize());
+// app.use(passport.session());
+
+// ! Add Flash Messages : With Passport.js we can communicate back to the user when their credentials are rejected using flash messages
+app.use(
+  session({
+    secret: "secr3t",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(flash());
+
+// ? This will keep our passport configuration.
+// passport.serializeUser(function (user, cb) {
+//   cb(null, user.id);
+// });
+
+// passport.deserializeUser(function (user, cb) {
+//   cb(null, user);
+// });
+
+app.get(
+  "/api/v1/users/login/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
+app.get(
+  "/api/v1/users/login/google/secrets",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/api/v1/posts");
+  }
+);
+
+//
+
+// app.get(
+//   "/api/v1/users/login/google",
+//   passport.authenticate("google", {
+//     scope: [
+//       "https://www.googleapis.com/auth/userinfo.profile",
+//       "https://www.googleapis.com/auth/userinfo.email",
+//     ],
+//   })
+// );
+
+// app.get(
+//   "/api/v1/users/login/google/secrets",
+//   passport.authenticate("google", { failureRedirect: "/login" }),
+//   function (req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect("/");
+//   }
+// );
 
 const port = process.env.PORT || 8080;
 
