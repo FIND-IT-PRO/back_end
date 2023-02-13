@@ -17,7 +17,7 @@ const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
-//OAuth API for google
+//OAuth for google API
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
@@ -26,6 +26,10 @@ const sdk = require("api")("@ngpvan/v1.0#a28silbfd0kbi");
 const flash = require("express-flash");
 require("./utils/passport");
 require("./utils/googleAPI");
+
+// OAuth for Facebook API
+const passportFacebook = require("passport-facebook");
+const FacebookStrategy = passportFacebook.Strategy;
 
 //!establishing connection with mongodb database
 establishConnection();
@@ -127,6 +131,37 @@ app.get(
 //     res.redirect("/");
 //   }
 // );
+
+// Sign up with Facebook API
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: "http://localhost:8080/api/v1/users/login/facebook/secrets",
+      profileFields: ["id", "displayName", "photos", "email"],
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
+
+app.get(
+  "/api/v1/users/login/facebook",
+  passport.authenticate("facebook", { scope: ["user_friends", "manage_pages"] })
+);
+
+app.get(
+  "/api/v1/users/login/facebook/secrets",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/");
+  }
+);
 
 const port = process.env.PORT || 8080;
 
