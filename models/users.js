@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const coordantesSchema = require("./coordantesSchema");
 
 const usersSchema = new mongoose.Schema({
   name: {
@@ -68,6 +69,10 @@ const usersSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false,
+  },
+  location: {
+    type: coordantesSchema,
+    required: [true, "Please provide location"],
   },
 });
 
