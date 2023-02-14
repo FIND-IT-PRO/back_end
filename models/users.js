@@ -7,7 +7,7 @@ const findOrCreate = require("mongoose-findorcreate");
 const usersSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "User must have a name!"],
+    // required: [true, "User must have a name!"],
   },
   email: {
     type: String,
@@ -71,6 +71,7 @@ const usersSchema = new mongoose.Schema({
     select: false,
   },
   googleId: String,
+  facebookId: String
 });
 
 // *
