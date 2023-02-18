@@ -13,26 +13,47 @@ router
   .post(authController.checkEmailAndPasswordExistence, authController.signup);
 router.route("/login").post(authController.login);
 
-// Login or signup with Google API
-// router.get(
-//   "/login/google",
-//   "google",
-//   passport.authenticate({
-//     scope: [
-//       "https://www.googleapis.com/auth/userinfo.profile",
-//       "https://www.googleapis.com/auth/userinfo.email",
-//     ],
-//   })
-// );
+// ! Login or signup with Google API
+router.get(
+  "/login/google",
+  // "google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ],
+  })
+);
 
-// router.get(
-//   "login/google/secrets",
-//   passport.authenticate("google", { failureRedirect: "/login" }),
-//   function (req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect("/");
-//   }
-// );
+router.get(
+  "/login/google/secrets",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/");
+  }
+  );
+  
+  // ! Login or signup with Facebook API
+  router.get(
+    "/login/facebook",
+    passport.authenticate(
+      "facebook",
+      { scope: ["email"] }
+      // , {
+      //   scope: ["profile", "email"],
+      // }
+    )
+  );
+  
+router.get(
+  "/login/facebook/secrets",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/");
+  }
+);
 
 // User Routes
 router.route("/updateMyInfo/:id").patch(userController.updateMyInfo);

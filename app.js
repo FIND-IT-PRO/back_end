@@ -24,12 +24,22 @@ const findOrCreate = require("mongoose-findorcreate");
 const session = require("express-session");
 const sdk = require("api")("@ngpvan/v1.0#a28silbfd0kbi");
 const flash = require("express-flash");
-require("./utils/passport");
-require("./utils/googleAPI");
+// require("./utils/passport");
+// require("./utils/googleAPI");
 
 // OAuth for Facebook API
-const passportFacebook = require("passport-facebook");
-const FacebookStrategy = passportFacebook.Strategy;
+// const passportFacebook = require("passport-facebook");
+// const FacebookStrategy = passportFacebook.Strategy;
+
+app.use(
+  session({
+    secret: "secr3t",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(flash());
 
 //!establishing connection with mongodb database
 establishConnection();
@@ -76,15 +86,7 @@ app.use(passport.initialize());
 // app.use(passport.session());
 
 // ! Add Flash Messages : With Passport.js we can communicate back to the user when their credentials are rejected using flash messages
-app.use(
-  session({
-    secret: "secr3t",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
-app.use(flash());
 
 // ? This will keep our passport configuration.
 // passport.serializeUser(function (user, cb) {
@@ -95,81 +97,25 @@ app.use(flash());
 //   cb(null, user);
 // });
 
-app.get(
-  "/api/v1/users/login/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
+// app.get(
+//   "/api/v1/users/login/google",
+//   passport.authenticate("google", {
+//     scope: ["profile", "email"],
+//   })
+// );
 
-app.get(
-  "/api/v1/users/login/google/secrets",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/api/v1/posts");
-  }
-);
+// app.get(
+//   "/api/v1/users/login/google/secrets",
+//   passport.authenticate("google", { failureRedirect: "/login" }),
+//   function (req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect("/api/v1/posts");
+//   }
+// );
 
 
 // Sign up with Facebook API
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:8080/api/v1/users/login/facebook/secrets",
-      profileFields: ["id", "displayName", "email"],
-      // enableProof: true,
-      // profileFields: ["email"],
-    },
-    async function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-      // console.log(profile.emails);
-      // cb(null, profile);
 
-      // const user = await User.findOne({email: profile.email})
-
-      // if(!user.facebookId){
-      //   return res.status(401).json({
-      //     status: 'failed',
-      //     message: 'This email is already existed!'
-      //   })
-      // }
-
-      User.findOrCreate(
-        {
-          name: profile.displayName,
-          email: profile.emails[0].value,
-          facebookId: profile.id,
-        },
-        function (err, user) {
-          return cb(err, user);
-        }
-      );
-    }
-  )
-);
-
-app.get(
-  "/api/v1/users/login/facebook",
-  passport.authenticate(
-    "facebook",
-    { scope: ["email"] }
-    // , {
-    //   scope: ["profile", "email"],
-    // }
-  )
-);
-
-app.get(
-  "/api/v1/users/login/facebook/secrets",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/");
-  }
-);
 
 const port = process.env.PORT || 8080;
 
