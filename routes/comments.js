@@ -43,7 +43,10 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const comment = await commentsController.removeComment(id, res.user_id);
+    const comment = await commentsController.removeComment({
+      id: id,
+      user_id: res.user_id,
+    });
     if (!comment || !comment.deletedCount) throw new Error("comment not found");
     res.status(200).json({ status: "success", data: comment });
   } catch (e) {

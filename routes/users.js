@@ -44,6 +44,8 @@ const sendingToken = (user, status, res) => {
 router
   .route("/signup")
   .post(authController.checkEmailAndPasswordExistence, authController.signup);
+
+router.route("/signup").post(authController.signup);
 router.route("/login").post(authController.login);
 
 // ! Login or signup with Google API

@@ -1,22 +1,10 @@
 const mongoose = require("mongoose");
-const isCoordantesValid = require("../helpers/isCoordantesValid");
+const coordantesSchema = require("./coordantesSchema");
 const dateSchema = require("./dateSchema");
-
-const pointSchema = new mongoose.Schema(
-  {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
-    },
-    coordinates: {
-      type: [Number],
-      required: true,
-      validtor: isCoordantesValid,
-    },
-  },
-  { _id: false }
-);
+const { itemReaction } = require("./itemReaction");
+// console.log("🚀 ~ file: posts.js:5 ~ itemReaction", itemReaction);
+const { defaultReactions } = require("./itemReaction");
+// console.log("🚀 ~ file: posts.js:6 ~ defaultReactions", defaultReactions);
 
 // function arrayLimit(val,limit) {
 //     return val.length <= limit;
@@ -59,7 +47,9 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
   location: {
-    type: pointSchema,
+    type: coordantesSchema,
+    required: [true, "Please provide location"],
   },
+  reactions: { type: [itemReaction], default: defaultReactions, _id: false },
 });
 module.exports = mongoose.model("posts", PostSchema);

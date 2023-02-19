@@ -7,6 +7,7 @@ const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
 const commentsRouter = require("./routes/comments.js");
 const storagesRouter = require("./routes/storages.js");
+const reactionRouter = require("./routes/reactions.js");
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 const User = require("./models/users");
@@ -55,13 +56,6 @@ app.use(express.static("public"));
 app.use(json());
 //! coockie parser
 app.use(coockieParser());
-
-//?routers
-const apiPrefix = "/api/v1/";
-app.use(apiPrefix + "users/", usersRouter);
-app.use(apiPrefix + "posts/", postsRouter);
-app.use(apiPrefix + "comments/", commentsRouter);
-app.use(apiPrefix + "uploads/", storagesRouter);
 
 //! Attacks Handling
 //? Data sanitization against XSS
@@ -116,6 +110,14 @@ app.use(passport.initialize());
 
 // Sign up with Facebook API
 
+=======
+//?routers
+const apiPrefix = "/api/v1/";
+app.use(apiPrefix + "users/", usersRouter);
+app.use(apiPrefix + "posts/", postsRouter);
+app.use(apiPrefix + "comments/", commentsRouter);
+app.use(apiPrefix + "uploads/", storagesRouter);
+app.use(apiPrefix + "reactions/", reactionRouter);
 
 const port = process.env.PORT || 8080;
 

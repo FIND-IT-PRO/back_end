@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const findOrCreate = require("mongoose-findorcreate");
+const coordantesSchema = require("./coordantesSchema");
 
 const usersSchema = new mongoose.Schema({
   name: {
@@ -72,6 +73,10 @@ const usersSchema = new mongoose.Schema({
   },
   googleId: String,
   facebookId: String
+  location: {
+    type: coordantesSchema,
+    required: [true, "Please provide location"],
+  },
 });
 
 // *
