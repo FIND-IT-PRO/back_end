@@ -3,11 +3,17 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const coockieParser = require("cookie-parser");
+
+//------------------Routers---------------------------
 const usersRouter = require("./routes/users.js");
 const postsRouter = require("./routes/posts.js");
+
 const commentsRouter = require("./routes/comments.js");
 const storagesRouter = require("./routes/storages.js");
 const reactionRouter = require("./routes/reactions.js");
+const detailsRouter = require('./routes/details.route.js');
+
+
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
 const User = require("./models/users");
@@ -118,6 +124,8 @@ app.use(apiPrefix + "posts/", postsRouter);
 app.use(apiPrefix + "comments/", commentsRouter);
 app.use(apiPrefix + "uploads/", storagesRouter);
 app.use(apiPrefix + "reactions/", reactionRouter);
+app.use(apiPrefix + "/details",detailsRouter);
+
 
 const port = process.env.PORT || 8080;
 
