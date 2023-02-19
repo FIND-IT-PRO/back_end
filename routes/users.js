@@ -3,9 +3,42 @@ const router = express.Router();
 const userController = require("../controllers/userController"); //UsersController is the class (controller)
 const authController = require("../controllers/authController");
 const passport = require("passport");
+const jwt = require("jsonwebtoken");
 
 /* GET users listing. */
 // router.route("/:id").get(userController);
+
+//* Genrating Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+//* Creating and Sending the token to the User
+const sendingToken = (user, status, res) => {
+  const token = generateToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: true,
+  };
+
+  res.cookie("jwt", token, cookieOptions);
+
+  // Remove password
+  user.password = undefined;
+
+  res.status(status).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  }).redirect('/');
+};
 
 // Authentication routes
 router
@@ -28,9 +61,18 @@ router.get(
 router.get(
   "/login/google/secrets",
   passport.authenticate("google", { failureRedirect: "/login" }),
-  function (req, res) {
+  (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect("/");
+    // return res
+    //     .status(200)
+    //     .cookie('jwt', jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
+    //       expiresIn: process.env.JWT_EXPIRES_IN,
+    //     }), {
+    //       httpOnly: true
+    //     })
+    //     .redirect('/')
+
+    sendingToken(req.user, 200, res);
   }
   );
   
@@ -51,7 +93,8 @@ router.get(
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/");
+    // res.redirect("/");
+    sendingToken(req.user, 200, res);
   }
 );
 
