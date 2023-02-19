@@ -5,6 +5,14 @@ const EmailClient = require("../helpers/mailing");
 const crypto = require("crypto");
 const { findById } = require("../models/users");
 
+const isEmailValid = require("../utils/isEmailValid");
+// const passport = require("passport");
+
+// OAuth
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+
 //? SignUP Handling
 exports.signup = async (req, res, next) => {
   try {
@@ -17,37 +25,49 @@ exports.signup = async (req, res, next) => {
     }
     const newUser = await User.create(req.body);
 
-    // res.status(201).json({
-    //   status: "sucess",
-    //   message: "Your account is created successfuly !",
-    // });
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+const passportFacebook = require("passport-facebook");
+const FacebookStrategy = passportFacebook.Strategy;
 
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    };
 
-    res.cookie("jwt", token, cookieOptions);
 
-    // Remove password
-    newUser.password = undefined;
+//* Genrating Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
 
-    res.status(201).json({
-      status: "success",
-      token,
-      data: {
-        newUser,
-      },
-    });
+//* Creating and Sending the token to the User
+const sendingToken = (user, status, res) => {
+  const token = generateToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: true,
+  };
 
-    // createSendToken(newUser, 201, res);
+  res.cookie("jwt", token, cookieOptions);
+
+  // Remove password
+  user.password = undefined;
+
+  res.status(status).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
+//? SignUP Handling
+exports.signup = async (req, res, next) => {
+  try {
+    const newUser = await User.create(req.body);
+    sendingToken(newUser, 201, res);
   } catch (error) {
     res.status(400).json({
       status: "error",
@@ -74,30 +94,7 @@ exports.login = async (req, res, next) => {
     if (!user || !correctPassword)
       throw new Error("Incorrect email or password!");
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: false,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    // Remove password
-    user.password = undefined;
-
-    res.status(200).json({
-      status: "success",
-      token,
-      data: {
-        user,
-      },
-    });
+    sendingToken(user, 200, res);
   } catch (error) {
     // console.log(error);
     res.status(401).json({
@@ -209,27 +206,7 @@ exports.resetPassword = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
-    const cookieOptions = {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-    };
-
-    res.cookie("jwt", token, cookieOptions);
-
-    res.status(200).json({
-      status: "success",
-      token: token,
-      data: {
-        user,
-      },
-    });
+    sendingToken(user, 200, res);
   } catch (error) {
     res.status(400).json({
       status: "error",
@@ -255,9 +232,9 @@ exports.logout = async (req, res, next) => {
 };
 
 exports.checkEmailAndPasswordExistence = async function (req, res, next) {
-  const { email, password } = req.body;
+  const { email, password, passwordConfirm } = req.body;
 
-  if (!email || !password) {
+  if (!email || !password || !passwordConfirm) {
     return res.status(400).send({
       message: "Email or password missing.",
     });
@@ -265,3 +242,96 @@ exports.checkEmailAndPasswordExistence = async function (req, res, next) {
 
   next();
 };
+
+
+//?
+// exports.preventLoggedUserWithprovider= async function (req,res,next){
+
+// }
+
+
+// OAuth with Google API handling
+// ? This will keep our passport configuration.
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  const currentUser = await User.findOne({
+    id,
+  });
+  done(null, currentUser);
+});
+
+
+// ? Google Passport
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      // callbackURL: "http://www.example.com/auth/google/callback"
+      callbackURL: "http://localhost:8080/api/v1/users/login/google/secrets",
+      // callbackURL: "http://localhost:8080/auth/google/secrets",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      console.log(profile);
+      // console.log(profile.emails);
+      cb(null, profile);
+      User.findOrCreate(
+        {
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          googleId: profile.id,
+        },
+        function (err) {
+          return cb(err, profile);
+        }
+      );
+    }
+  )
+);
+
+
+// OAuth with Facebook API handling
+
+// ? Facebook Passport
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: "http://localhost:8080/api/v1/users/login/facebook/secrets",
+      profileFields: ["id", "displayName", "email"],
+      // enableProof: true,
+      // profileFields: ["email"],
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      console.log(profile);
+      // console.log(profile.emails);
+      // cb(null, profile);
+
+      // const user = await User.findOne({email: profile.email})
+
+      // if(!user.facebookId){
+      //   return res.status(401).json({
+      //     status: 'failed',
+      //     message: 'This email is already existed!'
+      //   })
+      // }
+
+      User.findOrCreate(
+        {
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          facebookId: profile.id,
+        },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
+    }
+  )
+);
+
+
