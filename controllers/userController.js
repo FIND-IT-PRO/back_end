@@ -11,10 +11,6 @@ exports.updateMyInfo = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
 
-    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: process.env.JWT_EXPIRES_IN,
-    // });
-
     let token;
 
     if (
@@ -125,32 +121,7 @@ exports.updateMyPassword = async (req, res, next) => {
 
 exports.deleteMyAccount = async (req, res, next) => {
   try {
-    ///////////////////////////!
-    // const { jwt: token } = req.cookies;
-
-    // if (
-    //   req.headers.authorization &&
-    //   req.headers.authorization.startsWith("Bearer")
-    // ) {
-    //   token = req.headers.authorization.split(" ")[1];
-    // }
-
-    // if (!token) {
-    //   return res.status(401).json({
-    //     status: "failed",
-    //     message: "You didn't login yet, Try later!",
-    //   });
-    // }
-
-    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // extracting the user id
-    // const user_id = decoded.id;
-    //////////////////////////////////////////////
-    // console.log(
-    //   "🚀 ~ file: userController.js:146 ~ exports.deleteMyAccount ~ user_id",
-    //   decoded
-    // );
-    //  removing all posts and images and removing all comments reltaed to all my post
+    
     const { email, password } = req.body;
 
     if (!email || !password) {
