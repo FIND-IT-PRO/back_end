@@ -11,8 +11,7 @@ const postsRouter = require("./routes/posts.js");
 const commentsRouter = require("./routes/comments.js");
 const storagesRouter = require("./routes/storages.js");
 const reactionRouter = require("./routes/reactions.js");
-const detailsRouter = require('./routes/details.route.js');
-
+const detailsRouter = require("./routes/details.js");
 
 const cors = require("cors");
 const establishConnection = require("./connection/index.js");
@@ -87,7 +86,6 @@ app.use(passport.initialize());
 
 // ! Add Flash Messages : With Passport.js we can communicate back to the user when their credentials are rejected using flash messages
 
-
 // ? This will keep our passport configuration.
 // passport.serializeUser(function (user, cb) {
 //   cb(null, user.id);
@@ -113,9 +111,7 @@ app.use(passport.initialize());
 //   }
 // );
 
-
 // Sign up with Facebook API
-
 
 //?routers
 const apiPrefix = "/api/v1/";
@@ -124,8 +120,7 @@ app.use(apiPrefix + "posts/", postsRouter);
 app.use(apiPrefix + "comments/", commentsRouter);
 app.use(apiPrefix + "uploads/", storagesRouter);
 app.use(apiPrefix + "reactions/", reactionRouter);
-app.use(apiPrefix + "/details",detailsRouter);
-
+app.use(apiPrefix + "details", detailsRouter);
 
 const port = process.env.PORT || 8080;
 
