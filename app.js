@@ -110,7 +110,6 @@ app.use(passport.initialize());
 
 // Sign up with Facebook API
 
-=======
 //?routers
 const apiPrefix = "/api/v1/";
 app.use(apiPrefix + "users/", usersRouter);
