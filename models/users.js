@@ -72,7 +72,7 @@ const usersSchema = new mongoose.Schema({
     select: false,
   },
   googleId: String,
-  facebookId: String
+  facebookId: String,
   location: {
     type: coordantesSchema,
     required: [true, "Please provide location"],

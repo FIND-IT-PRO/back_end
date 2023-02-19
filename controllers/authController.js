@@ -5,31 +5,26 @@ const EmailClient = require("../helpers/mailing");
 const crypto = require("crypto");
 const { findById } = require("../models/users");
 
-const isEmailValid = require("../utils/isEmailValid");
 // const passport = require("passport");
 
 // OAuth
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
+// //? SignUP Handling
+// exports.signup = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
 
-//? SignUP Handling
-exports.signup = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).send({
-        message: "Email or password missing.",
-      });
-    }
-    const newUser = await User.create(req.body);
-
+//     if (!email || !password) {
+//       return res.status(400).send({
+//         message: "Email or password missing.",
+//       });
+//     }
+//     const newUser = await User.create(req.body);
 
 const passportFacebook = require("passport-facebook");
 const FacebookStrategy = passportFacebook.Strategy;
-
-
 
 //* Genrating Token
 const generateToken = (id) => {
@@ -243,12 +238,10 @@ exports.checkEmailAndPasswordExistence = async function (req, res, next) {
   next();
 };
 
-
 //?
 // exports.preventLoggedUserWithprovider= async function (req,res,next){
 
 // }
-
 
 // OAuth with Google API handling
 // ? This will keep our passport configuration.
@@ -262,7 +255,6 @@ passport.deserializeUser(async (id, done) => {
   });
   done(null, currentUser);
 });
-
 
 // ? Google Passport
 passport.use(
@@ -291,7 +283,6 @@ passport.use(
     }
   )
 );
-
 
 // OAuth with Facebook API handling
 
@@ -333,5 +324,3 @@ passport.use(
     }
   )
 );
-
-
