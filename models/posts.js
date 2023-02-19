@@ -1,47 +1,10 @@
 const mongoose = require("mongoose");
-
-const PostDateSchema = new mongoose.Schema(
-  {
-    creationDate: {
-      type: Date,
-      default: Date.now,
-    },
-    lastUpdateDate: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { _id: false }
-);
-const pointSchema = new mongoose.Schema(
-  {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
-    },
-    coordinates: {
-      type: [Number],
-      required: true,
-      validtor: isCoordantesValid,
-    },
-  },
-  { _id: false }
-);
-
-function isCoordantesValid(val) {
-  console.log(val); //check the range of the coordinates
-  if (val.length != 2) {
-    return false;
-  }
-  if (val[0] < -180 || val[0] > 180) {
-    return false; //2pi (phi of the sphere)
-  }
-  if (val[1] < -90 || val[1] > 90) {
-    return false; //pi (teta of the  sphere)
-  }
-  return true;
-}
+const coordantesSchema = require("./coordantesSchema");
+const dateSchema = require("./dateSchema");
+const { itemReaction } = require("./itemReaction");
+// console.log("🚀 ~ file: posts.js:5 ~ itemReaction", itemReaction);
+const { defaultReactions } = require("./itemReaction");
+// console.log("🚀 ~ file: posts.js:6 ~ defaultReactions", defaultReactions);
 
 // function arrayLimit(val,limit) {
 //     return val.length <= limit;
@@ -67,7 +30,7 @@ const PostSchema = new mongoose.Schema({
     maxLength: 500,
   },
   date: {
-    type: PostDateSchema,
+    type: dateSchema,
   },
   status: {
     type: String,
@@ -75,14 +38,18 @@ const PostSchema = new mongoose.Schema({
     enum: ["active", "inactive"],
     default: "active",
   },
-  images: [
-    {
-      type: [String],
-      required: false, //tmp
-    },
-  ],
-  location: {
-    type: pointSchema,
+  images: {
+    type: [String],
+    required: true,
   },
+  videos: {
+    type: [String],
+    required: true,
+  },
+  location: {
+    type: coordantesSchema,
+    required: [true, "Please provide location"],
+  },
+  reactions: { type: [itemReaction], default: defaultReactions, _id: false },
 });
 module.exports = mongoose.model("posts", PostSchema);

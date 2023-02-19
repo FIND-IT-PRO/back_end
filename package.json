@@ -6,20 +6,39 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "@azure/communication-email": "*",
+    "@azure/storage-blob": "^12.12.0",
+    "api": "^5.0.7",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "debug": "^2.6.9",
+    "crypto-js": "^4.1.1",
+    "deep-email-validator": "^0.1.21",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "http-errors": "^1.8.1",
-    "jade": "^1.11.0",
+    "express-fileupload": "^1.4.0",
+    "express-flash": "^0.0.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.7.0",
+    "express-session": "^1.17.3",
+    "find-or-create-mongoose": "^0.1.2",
+    "helmet": "^6.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "mime-types": "^2.1.35",
     "mongoose": "^6.8.4",
+    "mongoose-findorcreate": "^3.0.0",
     "morgan": "^1.10.0",
-    "update": "^0.7.4",
-    "validator": "^13.7.0"
+    "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "uuid": "^8.3.2",
+    "uuui": "^0.0.1",
+    "validator": "^13.7.0",
+    "xss-clean": "^0.1.1"
   },
   "author": "Mohammed EL BAKKALI EL AMMARI _ Sohaib manah _ ZenaguiAna said_frikh  ",
   "devDependencies": {
+    "eslint": "^8.33.0",
     "nodemon": "^2.0.20"
   }
 }
