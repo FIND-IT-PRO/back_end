@@ -1,6 +1,4 @@
-const Detail = require("../models/Details");
-const Contact = require("../models/contact");
-const TypeObject = require("../models/typeObjet");
+const Detail = require("../models/details");
 
 const addData = async (req, res) => {
   try {
