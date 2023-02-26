@@ -1,22 +1,23 @@
-# Find it philosophy :
+# Find it philosophy
 
 In this app you can find your missing stuffs or post that you’ve find somethings,
 
-# Features :(phase 1)
+## Features:(phase 1)
 
 ## Posts (REST API)
 
-[1]:Create a post (uploading images , adding description to your post(text )
+### Create a post (uploading images , adding description to your post(text )
+
 See random posts in home page
 React to a post (like,dislike,…)
 Comment to a post
 Simple comment on the parent post  
-Reply to a comment byTag a user by name (with autocompletion) and 1 level nested comments
+Reply to a comment by Tagging a user by name (with autocompletion) and 1 level nested comments
 Remove Tag from others
 Re-post
 Remove a post
 Editing a post
-Realtime Notification (socket.io)
+Real time Notification (socket.io)
 Receive notification
 On getting tagged by someone
 On getting a comment reply
@@ -24,7 +25,7 @@ On Getting a reaction to a post
 Real Time Messaging (socket.io)
 Request chat invitation
 Chat with text
-Exchanging static assets (images,videos…)
+Exchanging static assets (images,videos)
 Advanced search between posts(Mongodb Atlas search) + REST API )
 by a filter [geolocation coordinates , text , time range,image(AI)]
 Create a map that shows the location of lost and found items, allowing users to see at a zone where items have been found and where they are currently located
@@ -51,11 +52,11 @@ Offer support for multiple languages to make the app accessible to a global audi
 Customer support:
 Provide a way for users to contact customer support if they have any questions or need help using the app.
 
-More Features :
+### More Features :
 Premuire search with ads and a paid tier
 Adding questions to you be respond from people who pretend that they found the item
 We can implement Ai matching between lost object and founded ones (long term goal)
-……………………………………………………………………………………………………….
+
 
 Data model :
 
@@ -154,3 +155,19 @@ use this backend for learning purpose only
 create a branch for each feature you want to add
 [3]:
 contact us for more information
+
+## how to use 
+
+1:
+
+```bash
+git clone https://github.com/FIND-IT-PRO/back_end.git
+```
+
+2: please take your time to fill the .env file
+
+3: install the dependencies and start the server
+
+```bash
+npm install && npm start
+```
